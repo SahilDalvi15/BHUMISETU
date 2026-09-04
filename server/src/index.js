@@ -15,10 +15,14 @@ app.use(express.json());
 const authRoutes = require('./routes/authRoutes');
 const masterDataRoutes = require('./routes/masterDataRoutes');
 const projectRoutes = require('./routes/projectRoutes');
+const proposalRoutes = require('./routes/proposalRoutes');
+const workflowRoutes = require('./routes/workflowRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/master', masterDataRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/proposals', proposalRoutes);
+app.use('/api/workflows', workflowRoutes);
 
 // Base route for testing
 app.get('/', (req, res) => {
