@@ -7,11 +7,11 @@ import Layout from './layouts/Layout';
 import Dashboard from './pages/Dashboard';
 import Projects from './pages/Projects';
 import CreateProject from './pages/CreateProject';
+import Proposals from './pages/Proposals';
+import Inbox from './pages/Inbox';
 
 // Placeholder components for routing
-const Proposals = () => <div className="p-6 bg-white rounded shadow text-center">Proposals Module Coming Soon</div>;
-const GIS = () => <div className="p-6 bg-white rounded shadow text-center">GIS & Parcels Module Coming Soon</div>;
-const Inbox = () => <div className="p-6 bg-white rounded shadow text-center">Workflow Inbox Coming Soon</div>;
+const GIS = () => <div className="p-6 bg-white rounded shadow text-center border-t-4 border-gov-green">GIS & Parcels Module Coming Soon</div>;
 
 function App() {
   return (
