@@ -5,9 +5,10 @@ import Login from './modules/auth/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './layouts/Layout';
 import Dashboard from './pages/Dashboard';
+import Projects from './pages/Projects';
+import CreateProject from './pages/CreateProject';
 
 // Placeholder components for routing
-const Projects = () => <div className="p-6 bg-white rounded shadow text-center">Projects Module Coming Soon</div>;
 const Proposals = () => <div className="p-6 bg-white rounded shadow text-center">Proposals Module Coming Soon</div>;
 const GIS = () => <div className="p-6 bg-white rounded shadow text-center">GIS & Parcels Module Coming Soon</div>;
 const Inbox = () => <div className="p-6 bg-white rounded shadow text-center">Workflow Inbox Coming Soon</div>;
@@ -23,6 +24,7 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/projects" element={<Projects />} />
+              <Route path="/projects/create" element={<CreateProject />} />
               <Route path="/proposals" element={<Proposals />} />
               <Route path="/gis" element={<GIS />} />
               <Route path="/inbox" element={<Inbox />} />
