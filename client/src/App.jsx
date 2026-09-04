@@ -10,6 +10,7 @@ import CreateProject from './pages/CreateProject';
 import Proposals from './pages/Proposals';
 import Inbox from './pages/Inbox';
 import GIS from './pages/GIS';
+import Intelligence from './pages/Intelligence';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path="/proposals" element={<Proposals />} />
               <Route path="/gis" element={<GIS />} />
               <Route path="/inbox" element={<Inbox />} />
+              <Route path="/intelligence" element={<Intelligence />} />
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
             </Route>
           </Route>

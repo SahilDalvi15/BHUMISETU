@@ -5,13 +5,12 @@ import {
   LayoutDashboard, 
   Map, 
   FileText, 
-  inbox, 
   Bell, 
   LogOut, 
   Menu,
-  X,
   Briefcase,
-  Inbox
+  Inbox,
+  Brain
 } from 'lucide-react';
 
 const Layout = () => {
@@ -25,6 +24,7 @@ const Layout = () => {
     { name: 'Proposals', path: '/proposals', icon: FileText },
     { name: 'GIS & Parcels', path: '/gis', icon: Map },
     { name: 'Inbox', path: '/inbox', icon: Inbox },
+    { name: 'Intelligence', path: '/intelligence', icon: Brain },
   ];
 
   return (
