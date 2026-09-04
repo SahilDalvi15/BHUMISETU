@@ -14,9 +14,11 @@ app.use(express.json());
 // Routes
 const authRoutes = require('./routes/authRoutes');
 const masterDataRoutes = require('./routes/masterDataRoutes');
+const projectRoutes = require('./routes/projectRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/master', masterDataRoutes);
+app.use('/api/projects', projectRoutes);
 
 // Base route for testing
 app.get('/', (req, res) => {
