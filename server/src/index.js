@@ -13,8 +13,10 @@ app.use(express.json());
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
+const masterDataRoutes = require('./routes/masterDataRoutes');
 
 app.use('/api/auth', authRoutes);
+app.use('/api/master', masterDataRoutes);
 
 // Base route for testing
 app.get('/', (req, res) => {
