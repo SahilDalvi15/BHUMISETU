@@ -6,3 +6,4 @@ coverage/
 .env.*
 *.md
 *.log
+index.txt

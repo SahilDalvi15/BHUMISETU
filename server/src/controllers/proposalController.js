@@ -1,5 +1,6 @@
 const Proposal = require('../models/Proposal');
-const WorkflowTask = require('../models/WorkflowTask'); // Will be created next
+const WorkflowTask = require('../models/WorkflowTask');
+const socketManager = require('../utils/socketManager');
 
 // @desc    Get all proposals
 // @route   GET /api/proposals
@@ -32,6 +33,31 @@ exports.submitProposal = async (req, res) => {
     };
 
     const proposal = await Proposal.create(newProposal);
+    
+    // Auto-create a workflow task for verification
+    const workflowTask = await WorkflowTask.create({
+      taskId: `WF-${Date.now().toString().slice(-6)}`,
+      entityModel: 'Proposal',
+      entityId: proposal._id,
+      assignedRole: 'State Officer', // PRD flow: RB to State Officer
+      stage: 'Initial Verification',
+      dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days SLA
+    });
+
+    // --- REAL-TIME INTEGRATION ---
+    try {
+      const io = socketManager.getIO();
+      // Broadcast to all State Officers that a new workflow task has arrived
+      io.to('State Officer').emit('NEW_WORKFLOW_TASK', {
+        message: `New Proposal submitted for verification: ${proposal.proposalId}`,
+        taskId: workflowTask.taskId
+      });
+      // Broadcast to global dashboard
+      io.emit('DASHBOARD_UPDATE', { type: 'PROPOSAL_CREATED' });
+    } catch(e) {
+      console.log('Socket io not initialized in test/seed context');
+    }
+
     res.status(201).json({ success: true, data: proposal });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -58,6 +84,13 @@ exports.verifyProposal = async (req, res) => {
     });
 
     await proposal.save();
+
+    // --- REAL-TIME INTEGRATION ---
+    try {
+      const io = socketManager.getIO();
+      io.emit('DASHBOARD_UPDATE', { type: 'PROPOSAL_VERIFIED' });
+    } catch(e) {}
+
     res.json({ success: true, data: proposal });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error' });

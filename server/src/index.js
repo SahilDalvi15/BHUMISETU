@@ -43,6 +43,9 @@ app.get('/', (req, res) => {
   res.send('BHUMISETU API is running');
 });
 
+const http = require('http');
+const socketManager = require('./utils/socketManager');
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -51,6 +54,12 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+// Create HTTP server
+const server = http.createServer(app);
+
+// Initialize Socket.io
+socketManager.init(server);
+
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
