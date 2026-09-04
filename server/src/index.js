@@ -17,12 +17,14 @@ const masterDataRoutes = require('./routes/masterDataRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const proposalRoutes = require('./routes/proposalRoutes');
 const workflowRoutes = require('./routes/workflowRoutes');
+const parcelRoutes = require('./routes/parcelRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/master', masterDataRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/proposals', proposalRoutes);
 app.use('/api/workflows', workflowRoutes);
+app.use('/api/parcels', parcelRoutes);
 
 // Base route for testing
 app.get('/', (req, res) => {
