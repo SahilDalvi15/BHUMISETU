@@ -18,6 +18,8 @@ const projectRoutes = require('./routes/projectRoutes');
 const proposalRoutes = require('./routes/proposalRoutes');
 const workflowRoutes = require('./routes/workflowRoutes');
 const parcelRoutes = require('./routes/parcelRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
+const awardRoutes = require('./routes/awardRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/master', masterDataRoutes);
@@ -25,6 +27,8 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/proposals', proposalRoutes);
 app.use('/api/workflows', workflowRoutes);
 app.use('/api/parcels', parcelRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/awards', awardRoutes);
 
 // Base route for testing
 app.get('/', (req, res) => {
