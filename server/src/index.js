@@ -20,6 +20,10 @@ const workflowRoutes = require('./routes/workflowRoutes');
 const parcelRoutes = require('./routes/parcelRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const awardRoutes = require('./routes/awardRoutes');
+const compensationRoutes = require('./routes/compensationRoutes');
+const familyRoutes = require('./routes/familyRoutes');
+const rrRoutes = require('./routes/rrRoutes');
+const possessionRoutes = require('./routes/possessionRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/master', masterDataRoutes);
@@ -29,6 +33,10 @@ app.use('/api/workflows', workflowRoutes);
 app.use('/api/parcels', parcelRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/awards', awardRoutes);
+app.use('/api/compensations', compensationRoutes);
+app.use('/api/families', familyRoutes);
+app.use('/api/rr', rrRoutes);
+app.use('/api/possession', possessionRoutes);
 
 // Base route for testing
 app.get('/', (req, res) => {
