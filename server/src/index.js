@@ -21,9 +21,11 @@ const parcelRoutes = require('./routes/parcelRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const awardRoutes = require('./routes/awardRoutes');
 const compensationRoutes = require('./routes/compensationRoutes');
-const familyRoutes = require('./routes/familyRoutes');
 const rrRoutes = require('./routes/rrRoutes');
 const possessionRoutes = require('./routes/possessionRoutes');
+const intelligenceRoutes = require('./routes/intelligenceRoutes');
+const documentRoutes = require('./routes/documentRoutes');
+const auditRoutes = require('./routes/auditRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/master', masterDataRoutes);
@@ -37,6 +39,9 @@ app.use('/api/compensations', compensationRoutes);
 app.use('/api/families', familyRoutes);
 app.use('/api/rr', rrRoutes);
 app.use('/api/possession', possessionRoutes);
+app.use('/api/intelligence', intelligenceRoutes);
+app.use('/api/documents', documentRoutes);
+app.use('/api/audit', auditRoutes);
 
 // Base route for testing
 app.get('/', (req, res) => {
