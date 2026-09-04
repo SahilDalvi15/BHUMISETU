@@ -4,6 +4,34 @@
 
 @layer base {
   body {
-    @apply bg-gov-light text-gov-text font-sans antialiased;
+    @apply bg-gov-light text-gov-text font-sans antialiased selection:bg-emerald-500 selection:text-white;
   }
+}
+
+@layer utilities {
+  /* Premium Glassmorphism */
+  .glass-panel {
+    @apply bg-white bg-opacity-90 backdrop-blur-md border border-white border-opacity-20 shadow-premium;
+  }
+  
+  /* Text Gradient */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600;
+  }
+}
+
+/* Sleek Webkit Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Activity, ShieldCheck, Map, Users, TrendingUp, AlertTriangle, Wifi } from 'lucide-react';
+import { Activity, ShieldCheck, Map, Users, TrendingUp, AlertTriangle, Wifi, FileText } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { useSocket } from '../../hooks/useSocket';
 
@@ -116,30 +116,28 @@ const Dashboard = () => {
       {loading ? (
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 animate-pulse">
           {[1,2,3,4].map(i => (
-             <div key={i} className="bg-white overflow-hidden shadow rounded-lg h-24"></div>
+             <div key={i} className="glass-panel overflow-hidden shadow rounded-lg h-24"></div>
           ))}
         </div>
       ) : (
+        /* Statistics */
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {statCards.map((item) => (
-            <div key={item.title} className="bg-white overflow-hidden shadow rounded-lg border border-gray-100">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className={`p-3 rounded-md ${item.color} text-white`}>
-                      <item.icon className="h-6 w-6" aria-hidden="true" />
-                    </div>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">{item.title}</dt>
-                      <dd className="text-2xl font-bold text-gray-900">{item.value}</dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
+          <div className="glass-panel overflow-hidden rounded-xl p-5 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+            <dt className="text-sm font-semibold text-gray-500 truncate flex items-center"><Map className="w-4 h-4 mr-1 text-emerald-500"/> Total Projects</dt>
+            <dd className="mt-2 text-3xl font-extrabold text-gray-900">{stats.totalProjects}</dd>
+          </div>
+          <div className="glass-panel overflow-hidden rounded-xl p-5 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+            <dt className="text-sm font-semibold text-gray-500 truncate flex items-center"><FileText className="w-4 h-4 mr-1 text-emerald-500"/> Active Proposals</dt>
+            <dd className="mt-2 text-3xl font-extrabold text-gray-900">{stats.activeProposals}</dd>
+          </div>
+          <div className="glass-panel overflow-hidden rounded-xl p-5 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+            <dt className="text-sm font-semibold text-gray-500 truncate flex items-center"><Users className="w-4 h-4 mr-1 text-emerald-500"/> Parcels Identified</dt>
+            <dd className="mt-2 text-3xl font-extrabold text-gray-900">{stats.parcelsIdentified}</dd>
+          </div>
+          <div className="glass-panel overflow-hidden rounded-xl p-5 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+            <dt className="text-sm font-semibold text-gray-500 truncate flex items-center"><TrendingUp className="w-4 h-4 mr-1 text-emerald-500"/> Disbursed (Cr)</dt>
+            <dd className="mt-2 text-3xl font-extrabold text-gray-900">₹{stats.disbursedCrores}</dd>
+          </div>
         </div>
       )}
 

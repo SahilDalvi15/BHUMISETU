@@ -61,29 +61,29 @@ const Intelligence = () => {
           <section>
             <h2 className="text-lg font-medium text-gray-900 mb-4">MIS Overview</h2>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-              <div className="bg-white overflow-hidden shadow rounded-lg p-5 border border-gray-200">
-                <dt className="text-sm font-medium text-gray-500 truncate">Total Managed Projects</dt>
-                <dd className="mt-1 text-3xl font-bold text-gray-900">{misData.totalProjects || 2}</dd>
+              <div className="glass-panel overflow-hidden rounded-xl p-5 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+                <dt className="text-sm font-semibold text-gray-500 truncate">Total Managed Projects</dt>
+                <dd className="mt-2 text-3xl font-extrabold text-gray-900">{misData.totalProjects || 2}</dd>
               </div>
-              <div className="bg-white overflow-hidden shadow rounded-lg p-5 border border-gray-200">
-                <dt className="text-sm font-medium text-gray-500 truncate">Required Area (Hectares)</dt>
-                <dd className="mt-1 text-3xl font-bold text-gray-900">{misData.totalAreaRequired || 2200}</dd>
+              <div className="glass-panel overflow-hidden rounded-xl p-5 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+                <dt className="text-sm font-semibold text-gray-500 truncate">Required Area (Hectares)</dt>
+                <dd className="mt-2 text-3xl font-extrabold text-gray-900">{misData.totalAreaRequired || 2200}</dd>
               </div>
-              <div className="bg-white overflow-hidden shadow rounded-lg p-5 border border-gray-200">
-                <dt className="text-sm font-medium text-gray-500 truncate">Funds Disbursed (Cr)</dt>
-                <dd className="mt-1 text-3xl font-bold text-gray-900">₹{misData.totalCompensationDisbursed || 450}</dd>
+              <div className="glass-panel overflow-hidden rounded-xl p-5 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+                <dt className="text-sm font-semibold text-gray-500 truncate">Funds Disbursed (Cr)</dt>
+                <dd className="mt-2 text-3xl font-extrabold text-gray-900">₹{misData.totalCompensationDisbursed || 450}</dd>
               </div>
             </div>
           </section>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Risk & Delay Prediction */}
-            <section className="bg-white shadow rounded-lg border border-gray-200 p-6">
-              <h2 className="text-lg font-medium text-gray-900 mb-4 flex items-center">
+            <section className="glass-panel rounded-xl p-6">
+              <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
                 <ShieldAlert className="w-5 h-5 mr-2 text-red-500" />
                 Risk & Delay Prediction
               </h2>
-              <div className="flex items-center justify-between p-4 bg-gray-50 rounded-md mb-4 border border-gray-200">
+              <div className="flex items-center justify-between p-4 bg-gray-50 bg-opacity-50 rounded-lg mb-4 border border-gray-100">
                 <span className="text-sm font-medium text-gray-700">System Health</span>
                 <span className={`px-2 py-1 text-xs font-bold rounded ${riskData.systemHealth === 'Critical' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>
                   {riskData.systemHealth || 'Stable'}
@@ -107,8 +107,8 @@ const Intelligence = () => {
             </section>
 
             {/* Bottlenecks & Recommendations */}
-            <section className="bg-white shadow rounded-lg border border-gray-200 p-6">
-              <h2 className="text-lg font-medium text-gray-900 mb-4 flex items-center">
+            <section className="glass-panel rounded-xl p-6">
+              <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
                 <TrendingDown className="w-5 h-5 mr-2 text-purple-600" />
                 Bottleneck AI & Recommendations
               </h2>

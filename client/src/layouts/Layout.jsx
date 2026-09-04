@@ -39,33 +39,34 @@ const Layout = () => {
       )}
 
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 lg:translate-x-0 lg:static lg:inset-0 flex flex-col ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="flex items-center justify-center h-16 bg-gov-green border-b border-green-800 shrink-0">
-          <span className="text-white text-2xl font-bold tracking-wider">BHUMISETU</span>
+      <aside className={`fixed inset-y-0 left-0 z-30 w-64 glass-panel border-r border-gray-200 transform transition-transform duration-300 lg:translate-x-0 lg:static lg:inset-0 flex flex-col ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="flex items-center justify-center h-16 bg-gradient-to-r from-emerald-700 to-teal-800 border-b border-emerald-900 shrink-0 shadow-md relative overflow-hidden">
+          <div className="absolute inset-0 bg-black opacity-10"></div>
+          <span className="text-white text-2xl font-bold tracking-widest relative z-10">BHUMISETU</span>
         </div>
         
         <div className="flex flex-col flex-1 overflow-y-auto pt-4 pb-4">
           <div className="px-4 mb-6">
-            <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-2">Government of India</p>
-            <p className="text-sm font-medium text-gray-900 truncate">{user?.name}</p>
-            <p className="text-xs text-gov-green truncate">{user?.role}</p>
+            <p className="text-xs text-gray-500 uppercase tracking-widest font-bold mb-2">Gov of India</p>
+            <p className="text-sm font-semibold text-gray-900 truncate">{user?.name}</p>
+            <p className="text-xs text-emerald-600 font-medium truncate">{user?.role}</p>
           </div>
           
-          <nav className="flex-1 px-2 space-y-1">
+          <nav className="flex-1 px-3 space-y-2">
             {navItems.map((item) => {
               const isActive = location.pathname.startsWith(item.path);
               return (
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`group flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${
+                  className={`group flex items-center px-3 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 ${
                     isActive 
-                      ? 'bg-green-50 text-gov-green' 
-                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                      ? 'bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-800 shadow-sm border border-emerald-100' 
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 hover:-translate-y-0.5'
                   }`}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <item.icon className={`mr-3 h-5 w-5 flex-shrink-0 ${isActive ? 'text-gov-green' : 'text-gray-400 group-hover:text-gray-500'}`} />
+                  <item.icon className={`mr-3 h-5 w-5 flex-shrink-0 transition-transform duration-300 ${isActive ? 'text-emerald-600' : 'text-gray-400 group-hover:text-gray-600 group-hover:scale-110'}`} />
                   {item.name}
                 </Link>
               );
@@ -87,7 +88,7 @@ const Layout = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top Header */}
-        <header className="flex items-center justify-between h-16 px-4 sm:px-6 bg-white border-b border-gray-200 shrink-0">
+        <header className="flex items-center justify-between h-16 px-4 sm:px-6 bg-white border-b border-gray-200 shrink-0 glass-panel shadow-sm">
           <button 
             className="text-gray-500 lg:hidden hover:text-gray-700 focus:outline-none"
             onClick={() => setSidebarOpen(true)}
@@ -111,7 +112,7 @@ const Layout = () => {
         </header>
 
         {/* Main scrollable area */}
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-4 sm:p-6 lg:p-8">
+        <main className="flex-1 overflow-y-auto bg-gov-light p-4 sm:p-6 lg:p-8 animate-fade-in-up">
           <div className="max-w-7xl mx-auto">
             <Outlet />
           </div>
