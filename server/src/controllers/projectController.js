@@ -1,4 +1,7 @@
 const Project = require('../models/Project');
+require('../models/State');
+require('../models/District');
+require('../models/Village');
 
 // @desc    Get all projects
 // @route   GET /api/projects
@@ -16,7 +19,8 @@ exports.getProjects = async (req, res) => {
     const projects = await Project.find(query).populate('stateId districtId');
     res.json({ success: true, count: projects.length, data: projects });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Server error' });
+    console.error('Error in getProjects:', error);
+    res.status(500).json({ success: false, message: 'Server error', error: error.message });
   }
 };
 

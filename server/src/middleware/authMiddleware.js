@@ -8,15 +8,33 @@ exports.protect = (req, res, next) => {
   }
 
   if (!token) {
-    return res.status(401).json({ success: false, message: 'Not authorized, no token' });
+    // DEMO MODE: Inject a default admin user for SIH prototype demo
+    req.user = {
+      id: 'demo_admin_001',
+      username: 'admin',
+      name: 'National Admin',
+      role: 'National Admin',
+      stateId: null,
+      districtId: null
+    };
+    return next();
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'bhumisetu_demo_secret');
-    req.user = decoded; // Contains id, username, role, stateId, districtId
+    req.user = decoded;
     next();
   } catch (error) {
-    return res.status(401).json({ success: false, message: 'Not authorized, token failed' });
+    // Token invalid — fallback to demo user for prototype
+    req.user = {
+      id: 'demo_admin_001',
+      username: 'admin',
+      name: 'National Admin',
+      role: 'National Admin',
+      stateId: null,
+      districtId: null
+    };
+    next();
   }
 };
 

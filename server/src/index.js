@@ -1,9 +1,13 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const connectDB = require('./config/db');
 
 // Load env vars
 dotenv.config();
+
+// Connect to MongoDB
+connectDB();
 
 const app = express();
 
@@ -21,6 +25,7 @@ const parcelRoutes = require('./routes/parcelRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const awardRoutes = require('./routes/awardRoutes');
 const compensationRoutes = require('./routes/compensationRoutes');
+const familyRoutes = require('./routes/familyRoutes');
 const rrRoutes = require('./routes/rrRoutes');
 const possessionRoutes = require('./routes/possessionRoutes');
 const intelligenceRoutes = require('./routes/intelligenceRoutes');

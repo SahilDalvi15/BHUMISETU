@@ -1,6 +1,10 @@
 const Proposal = require('../models/Proposal');
 const WorkflowTask = require('../models/WorkflowTask');
 const socketManager = require('../utils/socketManager');
+require('../models/Project');
+require('../models/State');
+require('../models/District');
+require('../models/User');
 
 // @desc    Get all proposals
 // @route   GET /api/proposals
@@ -14,7 +18,8 @@ exports.getProposals = async (req, res) => {
     const proposals = await Proposal.find(query).populate('projectId currentOwner stateId districtId');
     res.json({ success: true, count: proposals.length, data: proposals });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Server error' });
+    console.error('Error in getProposals:', error);
+    res.status(500).json({ success: false, message: 'Server error', error: error.message });
   }
 };
 

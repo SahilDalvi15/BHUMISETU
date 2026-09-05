@@ -4,7 +4,7 @@ module.exports = {
   init: (httpServer) => {
     io = require('socket.io')(httpServer, {
       cors: {
-        origin: "http://localhost:5173", // Vite default port
+        origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],
         methods: ["GET", "POST"]
       }
     });
