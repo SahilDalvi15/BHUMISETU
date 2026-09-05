@@ -1,39 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useAuth } from '../../hooks/useAuth';
+import React, { useState } from 'react';
+import { useAuth } from '../hooks/useAuth';
+import useAppStore from '../store/useAppStore';
 import { Inbox as InboxIcon, CheckCircle, Clock, AlertTriangle, FileText, ChevronRight } from 'lucide-react';
 
 const Inbox = () => {
   const { user } = useAuth();
-  const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const allTasks = useAppStore(state => state.tasks);
   const [filter, setFilter] = useState('pending');
 
-  useEffect(() => {
-    fetchInboxTasks();
-  }, [filter]);
+  // Filter based on role
+  const myTasks = allTasks.filter(t => user && t.assignedRole === user.role);
 
-  const fetchInboxTasks = async () => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem('token');
-      // In real scenario we use the filter query param
-      const res = await axios.get(`http://localhost:5000/api/workflows/inbox?filter=${filter}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setTasks(res.data.data);
-    } catch (err) {
-      // Mock data for prototype
-      const mockTasks = [
-        { _id: '1', taskId: 'WF-1092', entityType: 'Proposal', stage: 'Under Verification', priority: 'High', dueDate: new Date(Date.now() + 86400000).toISOString(), isOverdue: false },
-        { _id: '2', taskId: 'WF-1088', entityType: 'Notification', stage: 'Section 11 Draft Review', priority: 'Medium', dueDate: new Date(Date.now() - 86400000).toISOString(), isOverdue: true },
-        { _id: '3', taskId: 'WF-1095', entityType: 'Compensation', stage: 'Assessment Approval', priority: 'Critical', dueDate: new Date(Date.now() + 172800000).toISOString(), isOverdue: false },
-      ];
-      setTasks(filter === 'overdue' ? mockTasks.filter(t => t.isOverdue) : mockTasks);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Apply tab filters
+  const displayTasks = myTasks.filter(t => {
+    if (filter === 'completed') return t.status === 'Completed';
+    
+    // For pending/overdue logic, let's assume 'Pending' status means it's pending.
+    // In a real app we'd compare dates. For mock data, let's mock the overdue logic if needed,
+    // or just assume due date < now means overdue.
+    const isOverdue = new Date(t.dueAt) < new Date();
+    
+    if (filter === 'overdue') return t.status !== 'Completed' && isOverdue;
+    if (filter === 'pending') return t.status !== 'Completed' && !isOverdue;
+    
+    return true;
+  });
 
   const getPriorityBadge = (priority) => {
     switch (priority) {
@@ -43,6 +34,12 @@ const Inbox = () => {
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
+
+  const overdueCount = myTasks.filter(t => t.status !== 'Completed' && new Date(t.dueAt) < new Date()).length;
+
+  if (!user) {
+    return <div className="p-8 text-center text-gray-500">Please select a Demo User from the top right to view tasks.</div>;
+  }
 
   return (
     <div className="space-y-6">
@@ -70,7 +67,9 @@ const Inbox = () => {
           className={`py-2 px-4 border-b-2 font-medium text-sm flex items-center ${filter === 'overdue' ? 'border-red-500 text-red-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
         >
           Overdue / Escalated
-          <span className="ml-2 bg-red-100 text-red-600 py-0.5 px-2 rounded-full text-xs">1</span>
+          {overdueCount > 0 && (
+            <span className="ml-2 bg-red-100 text-red-600 py-0.5 px-2 rounded-full text-xs">{overdueCount}</span>
+          )}
         </button>
         <button 
           onClick={() => setFilter('completed')}
@@ -82,25 +81,23 @@ const Inbox = () => {
 
       <div className="bg-white shadow overflow-hidden sm:rounded-md border border-gray-200">
         <ul className="divide-y divide-gray-200">
-          {loading ? (
-             <li className="px-6 py-12 flex justify-center">
-               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gov-green"></div>
-             </li>
-          ) : tasks.length === 0 ? (
+          {displayTasks.length === 0 ? (
             <li className="px-6 py-12 text-center">
               <CheckCircle className="mx-auto h-12 w-12 text-green-200" />
               <h3 className="mt-2 text-sm font-medium text-gray-900">All caught up!</h3>
               <p className="mt-1 text-sm text-gray-500">You have no tasks in this view.</p>
             </li>
           ) : (
-            tasks.map((task) => (
-              <li key={task._id}>
+            displayTasks.map((task) => {
+              const isOverdue = new Date(task.dueAt) < new Date();
+              return (
+              <li key={task.id}>
                 <a href="#" className="block hover:bg-gray-50">
                   <div className="px-4 py-4 sm:px-6">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center text-sm font-medium text-gov-green truncate">
                         <FileText className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
-                        {task.taskId} - {task.entityType} ({task.stage})
+                        {task.id} - {task.entityType} ({task.stage})
                       </div>
                       <div className="ml-2 flex-shrink-0 flex">
                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full border ${getPriorityBadge(task.priority)}`}>
@@ -111,17 +108,17 @@ const Inbox = () => {
                     <div className="mt-2 sm:flex sm:justify-between">
                       <div className="sm:flex">
                         <p className="flex items-center text-sm text-gray-500">
-                          Requires action from: {user?.role}
+                          {task.title}
                         </p>
                       </div>
                       <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                        {task.isOverdue ? (
+                        {isOverdue && task.status !== 'Completed' ? (
                           <AlertTriangle className="flex-shrink-0 mr-1.5 h-5 w-5 text-red-500" />
                         ) : (
                           <Clock className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
                         )}
-                        <p className={task.isOverdue ? 'text-red-600 font-medium' : ''}>
-                          Due: {new Date(task.dueDate).toLocaleDateString()}
+                        <p className={isOverdue && task.status !== 'Completed' ? 'text-red-600 font-medium' : ''}>
+                          Due: {new Date(task.dueAt).toLocaleDateString()}
                         </p>
                         <ChevronRight className="ml-4 h-5 w-5 text-gray-400" />
                       </div>
@@ -129,7 +126,7 @@ const Inbox = () => {
                   </div>
                 </a>
               </li>
-            ))
+            )})
           )}
         </ul>
       </div>

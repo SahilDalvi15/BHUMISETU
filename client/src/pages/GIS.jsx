@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
 import { Map as MapIcon, Layers, Search, MapPin, Maximize2, AlertTriangle, ChevronRight } from 'lucide-react';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../hooks/useAuth';
+import useAppStore from '../store/useAppStore';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+import { Link } from 'react-router-dom';
+
+// Fix for default marker icon in leaflet with Vite
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
 const GIS = () => {
   const { user } = useAuth();
   const [selectedParcel, setSelectedParcel] = useState(null);
-
-  // Mock Parcels to click on the map
-  const mockParcels = [
-    { id: 'MH-THN-P045', area: 2.4, type: 'Agricultural', status: 'Land Identified', owner: 'Ramesh Patil', lat: 19.25, lng: 73.40, risk: 'LOW' },
-    { id: 'MH-THN-P046', area: 1.2, type: 'Commercial', status: 'Notified', owner: 'Vikas Sharma', lat: 19.26, lng: 73.41, risk: 'MEDIUM', blocker: 'Valuation Dispute' },
-    { id: 'MH-THN-P047', area: 5.0, type: 'Forest', status: 'Awarded', owner: 'State Govt', lat: 19.24, lng: 73.39, risk: 'HIGH', blocker: 'Clearance Pending' },
-  ];
+  
+  const mockParcels = useAppStore(state => state.parcels);
 
   return (
     <div className="h-[calc(100vh-8rem)] flex flex-col space-y-4">
@@ -30,49 +38,45 @@ const GIS = () => {
       <div className="flex-1 flex overflow-hidden bg-white shadow rounded-lg border border-gray-200">
         
         {/* Left Side: The "Map" */}
-        <div className="flex-1 bg-gray-100 relative overflow-hidden flex items-center justify-center border-r border-gray-200">
-          
+        <div className="flex-1 relative overflow-hidden border-r border-gray-200 z-0">
+          <MapContainer center={[19.25, 73.40]} zoom={13} className="w-full h-full z-0">
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            {mockParcels.map((parcel) => (
+              <Marker 
+                key={parcel.id} 
+                position={[parcel.lat, parcel.lng]}
+                eventHandlers={{
+                  click: () => {
+                    setSelectedParcel(parcel);
+                  },
+                }}
+              >
+                <Popup>
+                  <strong>{parcel.id}</strong><br />
+                  Owner: {parcel.owner}<br />
+                  Risk: {parcel.risk}
+                </Popup>
+              </Marker>
+            ))}
+          </MapContainer>
+
           {/* Map Controls Mock */}
-          <div className="absolute top-4 left-4 bg-white shadow rounded-md p-2 flex flex-col space-y-2 z-10">
+          <div className="absolute top-4 right-4 bg-white shadow rounded-md p-2 flex flex-col space-y-2 z-[400]">
             <button className="p-2 text-gray-600 hover:text-gov-green hover:bg-gray-50 rounded"><Layers className="w-5 h-5" /></button>
             <button className="p-2 text-gray-600 hover:text-gov-green hover:bg-gray-50 rounded"><Search className="w-5 h-5" /></button>
             <button className="p-2 text-gray-600 hover:text-gov-green hover:bg-gray-50 rounded"><Maximize2 className="w-5 h-5" /></button>
           </div>
 
-          {/* Map Grid Pattern (Stylistic Mock) */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,100,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,100,0,0.05)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
-
-          {/* Map Pins */}
-          <div className="relative w-full h-full">
-            {mockParcels.map((parcel, idx) => (
-              <div 
-                key={parcel.id}
-                className="absolute cursor-pointer transform -translate-x-1/2 -translate-y-full hover:scale-110 transition-transform z-10"
-                style={{ 
-                  top: `${40 + (idx * 15)}%`, 
-                  left: `${40 + (idx * 10)}%` 
-                }}
-                onClick={() => setSelectedParcel(parcel)}
-              >
-                <div className={`flex flex-col items-center ${selectedParcel?.id === parcel.id ? 'animate-bounce' : ''}`}>
-                  <div className={`p-1.5 rounded text-xs font-bold text-white shadow mb-1 ${
-                    parcel.risk === 'HIGH' ? 'bg-red-600' : parcel.risk === 'MEDIUM' ? 'bg-yellow-500' : 'bg-gov-green'
-                  }`}>
-                    {parcel.id}
-                  </div>
-                  <MapPin className={`w-8 h-8 ${selectedParcel?.id === parcel.id ? 'text-blue-600' : 'text-gray-700'}`} fill="white" />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="absolute bottom-4 right-4 bg-white/90 px-3 py-1 rounded shadow text-xs text-gray-500 font-mono">
-            Lat: 19.25012 | Lng: 73.40192 • Bhuvan API Connected
+          <div className="absolute bottom-4 left-4 z-[400] bg-white/90 px-3 py-1 rounded shadow text-xs text-gray-500 font-mono">
+            Bhuvan API Connected
           </div>
         </div>
 
         {/* Right Side: Parcel Details Panel */}
-        <div className="w-96 bg-white overflow-y-auto">
+        <div className="w-96 bg-white overflow-y-auto z-10">
           {selectedParcel ? (
             <div className="p-6">
               <div className="flex justify-between items-start mb-6 border-b border-gray-200 pb-4">
@@ -81,7 +85,8 @@ const GIS = () => {
                   <p className="text-sm text-gray-500 mt-1">Village: Murbad, Thane</p>
                 </div>
                 <span className={`px-2 py-1 text-xs font-bold rounded ${
-                  selectedParcel.risk === 'HIGH' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+                  selectedParcel.risk === 'HIGH' ? 'bg-red-100 text-red-800' : 
+                  selectedParcel.risk === 'MEDIUM' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'
                 }`}>
                   {selectedParcel.risk} RISK
                 </span>
@@ -94,6 +99,7 @@ const GIS = () => {
                     <div className="flex justify-between"><span className="text-gray-500">Area:</span><span className="font-medium">{selectedParcel.area} Hectares</span></div>
                     <div className="flex justify-between"><span className="text-gray-500">Type:</span><span className="font-medium">{selectedParcel.type}</span></div>
                     <div className="flex justify-between"><span className="text-gray-500">Current Owner:</span><span className="font-medium">{selectedParcel.owner}</span></div>
+                    <div className="flex justify-between"><span className="text-gray-500">Location:</span><span className="font-medium">{selectedParcel.lat.toFixed(4)}, {selectedParcel.lng.toFixed(4)}</span></div>
                   </div>
                 </div>
 
@@ -117,12 +123,12 @@ const GIS = () => {
                   </div>
                 )}
 
-                {['Field Officer', 'District Officer'].includes(user?.role) && (
+                {['Field Verification Officer', 'District Officer', 'State Officer', 'National Admin'].includes(user?.role) && (
                   <div className="pt-4 border-t border-gray-200">
-                    <button className="w-full flex items-center justify-center px-4 py-2 border border-gov-green text-gov-green rounded hover:bg-green-50 transition-colors">
+                    <Link to="/tasks" className="w-full flex items-center justify-center px-4 py-2 border border-gov-green text-gov-green rounded hover:bg-green-50 transition-colors">
                       Log Field Verification
                       <ChevronRight className="w-4 h-4 ml-2" />
-                    </button>
+                    </Link>
                   </div>
                 )}
               </div>

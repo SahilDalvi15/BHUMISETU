@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Save } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import useAppStore from '../store/useAppStore';
 
 const CreateProject = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const addProject = useAppStore(state => state.addProject);
+  const addAlert = useAppStore(state => state.addAlert);
+  const user = useAppStore(state => state.activeUser);
   
   const [formData, setFormData] = useState({
     projectId: `PRJ-${Date.now().toString().slice(-6)}`,
@@ -30,15 +33,45 @@ const CreateProject = () => {
     setSuccess('');
 
     try {
-      const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/projects', formData, {
-        headers: { Authorization: `Bearer ${token}` }
+      // Simulate network request
+      await new Promise(resolve => setTimeout(resolve, 800));
+
+      const newProject = {
+        id: formData.projectId,
+        name: formData.name,
+        type: formData.type,
+        stateId: user?.stateId || 'ST-MH',
+        districtId: user?.districtId || null,
+        status: 'Proposed',
+        progressPercentage: 0,
+        riskLevel: 'LOW',
+        riskScore: 10,
+        requiredLandArea: parseFloat(formData.requiredLandArea),
+        acquiredLandArea: 0,
+        estimatedTimeline: 24,
+        estimatedCompensation: 0,
+        actualStartDate: null,
+        plannedEndDate: null,
+        stage: 'Proposed'
+      };
+
+      addProject(newProject);
+      
+      // Generate a mock alert for the new project
+      addAlert({
+        id: `ALT-${Date.now().toString().slice(-4)}`,
+        severity: 'Info',
+        entityId: newProject.id,
+        trigger: 'New Project Proposal Initiated',
+        createdAt: new Date().toISOString().split('T')[0],
+        status: 'Unresolved',
+        recommendedAction: 'Awaiting Document Uploads'
       });
+
       setSuccess('Project initiated successfully!');
-      setTimeout(() => navigate('/projects'), 2000);
+      setTimeout(() => navigate('/projects'), 1500);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to create project');
-      // Even if it fails, it's a prototype so we let them proceed or show error
+      setError('Failed to create project');
     } finally {
       setLoading(false);
     }
