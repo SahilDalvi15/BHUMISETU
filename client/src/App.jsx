@@ -11,6 +11,11 @@ import Proposals from './pages/Proposals';
 import Inbox from './pages/Inbox';
 import GIS from './pages/GIS';
 import Intelligence from './pages/Intelligence';
+import Compensation from './pages/Compensation';
+import RR from './pages/RR';
+import Possession from './pages/Possession';
+import Tasks from './pages/Tasks';
+import Alerts from './pages/Alerts';
 
 function App() {
   return (
@@ -25,6 +30,11 @@ function App() {
               <Route path="/projects" element={<Projects />} />
               <Route path="/projects/create" element={<CreateProject />} />
               <Route path="/proposals" element={<Proposals />} />
+              <Route path="/compensation" element={<Compensation />} />
+              <Route path="/rr" element={<RR />} />
+              <Route path="/possession" element={<Possession />} />
+              <Route path="/workflow/tasks" element={<Tasks />} />
+              <Route path="/alerts" element={<Alerts />} />
               <Route path="/gis" element={<GIS />} />
               <Route path="/inbox" element={<Inbox />} />
               <Route path="/intelligence" element={<Intelligence />} />
