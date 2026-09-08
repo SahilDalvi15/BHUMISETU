@@ -17,6 +17,8 @@ import RR from './pages/RR';
 import Possession from './pages/Possession';
 import Tasks from './pages/Tasks';
 import Alerts from './pages/Alerts';
+import Documents from './pages/Documents';
+import AuditLog from './pages/AuditLog';
 
 function App() {
   return (
@@ -40,6 +42,8 @@ function App() {
               <Route path="/gis" element={<GIS />} />
               <Route path="/inbox" element={<Inbox />} />
               <Route path="/intelligence" element={<Intelligence />} />
+              <Route path="/documents" element={<Documents />} />
+              <Route path="/audit" element={<AuditLog />} />
             </Route>
           </Route>
           

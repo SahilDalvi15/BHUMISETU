@@ -11,6 +11,8 @@
     "tasksWorkflow": "Tasks (Workflow)",
     "alerts": "Alerts",
     "intelligence": "Intelligence",
+    "documents": "Documents",
+    "auditLog": "Audit Log",
     "secureLogout": "Secure Logout",
     "demoUserSwitcher": "Demo User Switcher",
     "backToLanding": "Back to Landing Page"
@@ -96,6 +98,27 @@
     "intelligence": {
       "title": "Bhumi-AI Intelligence",
       "desc": "Ask questions, analyze documents, and predict bottlenecks."
+    },
+    "documents": {
+      "title": "Document Repository",
+      "desc": "Secure document storage with version control and audit history.",
+      "upload": "Upload Document",
+      "totalDocs": "Total Documents",
+      "approved": "Approved",
+      "underReview": "Under Review",
+      "versions": "Total Versions",
+      "docName": "Document Name",
+      "project": "Project",
+      "version": "Version",
+      "uploadedBy": "Uploaded By"
+    },
+    "audit": {
+      "title": "Audit Trail",
+      "desc": "Immutable log of all system actions for transparency and accountability.",
+      "immutable": "Immutable Record",
+      "totalEntries": "Total Entries",
+      "uniqueUsers": "Unique Users",
+      "last24h": "Last 24 Hours"
     }
   },
   "landing": {

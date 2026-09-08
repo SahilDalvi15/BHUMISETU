@@ -19,7 +19,9 @@ import {
   CheckSquare,
   AlertTriangle,
   Settings,
-  ArrowLeft
+  ArrowLeft,
+  FolderOpen,
+  History
 } from 'lucide-react';
 
 import { useTranslation } from 'react-i18next';
@@ -45,6 +47,8 @@ const Layout = () => {
     { name: t('layout.gisParcels'), path: '/gis', icon: Map },
     { name: t('layout.tasksWorkflow'), path: '/workflow/tasks', icon: CheckSquare },
     { name: t('layout.alerts'), path: '/alerts', icon: AlertTriangle },
+    { name: t('layout.documents'), path: '/documents', icon: FolderOpen },
+    { name: t('layout.auditLog'), path: '/audit', icon: History },
     { name: t('layout.intelligence'), path: '/intelligence', icon: Brain },
   ];
 
