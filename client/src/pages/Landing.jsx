@@ -124,14 +124,14 @@ const Landing = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-5 gap-6 relative z-10">
               {[
-                { step: 1, title: t('landing.stage1'), icon: <FileText className="w-6 h-6" />, color: 'blue' },
-                { step: 2, title: t('landing.stage2'), icon: <Map className="w-6 h-6" />, color: 'emerald' },
-                { step: 3, title: t('landing.stage3'), icon: <CheckCircle2 className="w-6 h-6" />, color: 'amber' },
-                { step: 4, title: t('landing.stage4'), icon: <Users className="w-6 h-6" />, color: 'purple' },
-                { step: 5, title: t('landing.stage5'), icon: <Target className="w-6 h-6" />, color: 'green' }
+                { step: 1, title: t('landing.stage1'), icon: <FileText className="w-6 h-6" />, bg: 'bg-blue-50', text: 'text-blue-600', border: 'border-blue-100' },
+                { step: 2, title: t('landing.stage2'), icon: <Map className="w-6 h-6" />, bg: 'bg-emerald-50', text: 'text-emerald-600', border: 'border-emerald-100' },
+                { step: 3, title: t('landing.stage3'), icon: <CheckCircle2 className="w-6 h-6" />, bg: 'bg-amber-50', text: 'text-amber-600', border: 'border-amber-100' },
+                { step: 4, title: t('landing.stage4'), icon: <Users className="w-6 h-6" />, bg: 'bg-purple-50', text: 'text-purple-600', border: 'border-purple-100' },
+                { step: 5, title: t('landing.stage5'), icon: <Target className="w-6 h-6" />, bg: 'bg-green-50', text: 'text-green-600', border: 'border-green-100' }
               ].map((s) => (
                 <div key={s.step} className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-lg transition-all text-center group cursor-pointer">
-                  <div className={`w-12 h-12 mx-auto bg-${s.color}-50 text-${s.color}-600 rounded-full flex items-center justify-center mb-4 border border-${s.color}-100 group-hover:scale-110 transition-transform`}>
+                  <div className={`w-12 h-12 mx-auto ${s.bg} ${s.text} rounded-full flex items-center justify-center mb-4 border ${s.border} group-hover:scale-110 transition-transform`}>
                     {s.icon}
                   </div>
                   <h3 className="text-sm font-bold text-gray-900">{s.title}</h3>
