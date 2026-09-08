@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Brain, AlertTriangle, TrendingDown, Clock, ShieldAlert, Download, Activity } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
@@ -10,6 +10,22 @@ const Intelligence = () => {
   const allProjects = useAppStore(state => state.projects);
   const allTasks = useAppStore(state => state.tasks);
   const allAlerts = useAppStore(state => state.alerts);
+  const [budgetIncrease, setBudgetIncrease] = useState('0');
+  const [rrFastTrack, setRrFastTrack] = useState('No Change');
+  const [simResult, setSimResult] = useState(null);
+  const [simRan, setSimRan] = useState(false);
+
+  const runSimulation = () => {
+    const budgetPct = parseFloat(budgetIncrease) || 0;
+    const rrDays = rrFastTrack === 'Reduce time by 30 days' ? 30 : rrFastTrack === 'Reduce time by 15 days' ? 15 : 0;
+    const overdueCount = allTasks.filter(t => t.status !== 'Completed' && new Date(t.dueAt) < new Date()).length;
+    const monthsReduced = ((budgetPct / 100) * 3.5 + (rrDays / 30) * 1.2).toFixed(1);
+    const tasksImpacted = Math.round(overdueCount * (budgetPct / 100 + rrDays / 90));
+    const budgetEffect = budgetPct > 0 ? `Budget increase unlocks ${Math.round(budgetPct * 1.4)} additional parcel acquisitions.` : '';
+    const rrEffect = rrDays > 0 ? `R&R fast-tracking clears ${rrDays}-day bottleneck, unblocking ${Math.ceil(rrDays / 5)} pending tasks.` : '';
+    setSimResult({ monthsReduced, tasksImpacted, budgetEffect, rrEffect });
+    setSimRan(true);
+  };
   
   if (!user) {
     return <div className="p-8 text-center text-gray-500">Please select a Demo User from the top right to view intelligence data.</div>;
@@ -157,7 +173,6 @@ const Intelligence = () => {
             </div>
           </section>
         </div>
-        </div>
 
         {/* What-If Scenario Simulator */}
         <section className="glass-panel rounded-xl p-6 mt-6">
@@ -172,32 +187,64 @@ const Intelligence = () => {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Increase Land Acquisition Budget by</label>
-                <select className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                  <option>0%</option>
-                  <option>+10%</option>
-                  <option>+25%</option>
-                  <option>+50%</option>
+                <select
+                  value={budgetIncrease}
+                  onChange={(e) => { setBudgetIncrease(e.target.value.replace('+','').replace('%','')); setSimRan(false); }}
+                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                >
+                  <option value="0">0%</option>
+                  <option value="10">+10%</option>
+                  <option value="25">+25%</option>
+                  <option value="50">+50%</option>
                 </select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Fast-track R&R Approvals</label>
-                <select className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                <select
+                  value={rrFastTrack}
+                  onChange={(e) => { setRrFastTrack(e.target.value); setSimRan(false); }}
+                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                >
                   <option>No Change</option>
                   <option>Reduce time by 15 days</option>
                   <option>Reduce time by 30 days</option>
                 </select>
               </div>
-              <button className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+              <button
+                onClick={runSimulation}
+                className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none transition-colors"
+              >
+                <Activity className="w-4 h-4 mr-2" />
                 Run Simulation
               </button>
             </div>
-            
-            <div className="md:col-span-2 bg-blue-50 rounded-lg p-5 border border-blue-100 flex flex-col justify-center items-center text-center">
-              <Activity className="w-10 h-10 text-blue-300 mb-3" />
-              <h3 className="text-sm font-bold text-blue-800 uppercase tracking-wide">Simulation Results</h3>
-              <p className="text-sm text-blue-600 mt-2 max-w-md">
-                Running this scenario indicates a potential reduction of <span className="font-bold">2.4 months</span> in average project delivery time, with a projected impact on <span className="font-bold">14 critical path tasks</span>.
-              </p>
+
+            <div className="md:col-span-2 bg-blue-50 rounded-lg p-5 border border-blue-100 flex flex-col justify-center items-center text-center min-h-[160px]">
+              {!simRan ? (
+                <>
+                  <Activity className="w-10 h-10 text-blue-200 mb-3" />
+                  <h3 className="text-sm font-bold text-blue-700 uppercase tracking-wide">Awaiting Simulation</h3>
+                  <p className="text-sm text-blue-400 mt-2">Adjust variables and click "Run Simulation" to see projected outcomes.</p>
+                </>
+              ) : (
+                <>
+                  <Activity className="w-10 h-10 text-blue-500 mb-3" />
+                  <h3 className="text-sm font-bold text-blue-800 uppercase tracking-wide mb-3">Simulation Results</h3>
+                  <div className="grid grid-cols-2 gap-4 w-full mb-3">
+                    <div className="bg-white rounded-lg p-3 border border-blue-200">
+                      <p className="text-xs text-blue-500 font-medium">Delivery Time Reduced</p>
+                      <p className="text-2xl font-extrabold text-blue-700">{simResult.monthsReduced} <span className="text-sm font-normal">months</span></p>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 border border-blue-200">
+                      <p className="text-xs text-blue-500 font-medium">Tasks Unblocked</p>
+                      <p className="text-2xl font-extrabold text-blue-700">{simResult.tasksImpacted}</p>
+                    </div>
+                  </div>
+                  {simResult.budgetEffect && <p className="text-xs text-blue-600 mt-1">• {simResult.budgetEffect}</p>}
+                  {simResult.rrEffect && <p className="text-xs text-blue-600 mt-1">• {simResult.rrEffect}</p>}
+                  {!simResult.budgetEffect && !simResult.rrEffect && <p className="text-xs text-blue-400 mt-1">No changes selected — current state is baseline.</p>}
+                </>
+              )}
             </div>
           </div>
         </section>
