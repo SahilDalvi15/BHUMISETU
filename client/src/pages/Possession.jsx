@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MapPin, ArrowRight, CheckCircle, Search, FileText } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import useAppStore from '../store/useAppStore';
 
 const Possession = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const allPossessions = useAppStore(state => state.possessions);
   const updatePossession = useAppStore(state => state.updatePossession);
@@ -39,7 +41,7 @@ const Possession = () => {
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center">
             <MapPin className="w-6 h-6 mr-2 text-teal-600" />
-            Land Possession & Transfer
+            {t("pages.possession.title")} & Transfer
           </h1>
           <p className="mt-1 text-sm text-gray-500">
             Manage the final handover of acquired land to the Requiring Body.
@@ -91,8 +93,8 @@ const Possession = () => {
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Record ID & Project</th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Parcel Details</th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transfer Route</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t("common.status")}</th>
+                <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{t("common.action")}</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">

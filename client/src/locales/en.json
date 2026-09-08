@@ -12,7 +12,8 @@
     "alerts": "Alerts",
     "intelligence": "Intelligence",
     "secureLogout": "Secure Logout",
-    "demoUserSwitcher": "Demo User Switcher"
+    "demoUserSwitcher": "Demo User Switcher",
+    "backToLanding": "Back to Landing Page"
   },
   "dashboard": {
     "nationalCommandCenter": "National Command Center",
@@ -60,14 +61,151 @@
     "amount": "Amount"
   },
   "pages": {
-    "projects": { "title": "Projects Directory", "desc": "Manage and monitor all active land acquisition projects." },
-    "proposals": { "title": "Land Proposals", "desc": "Review and track proposals submitted by Requiring Bodies." },
-    "compensation": { "title": "Compensation & Disbursement", "desc": "Manage awards and track direct benefit transfers (DBT)." },
-    "rr": { "title": "Rehabilitation & Resettlement (R&R)", "desc": "Track and manage displaced families and their rehabilitation entitlements." },
-    "possession": { "title": "Land Possession", "desc": "Track physical handover and encumbrance clearing of acquired land." },
-    "gis": { "title": "Spatial Viewer", "desc": "Geospatial mapping of land parcels and project corridors." },
-    "tasks": { "title": "Workflow & Approvals", "desc": "Manage pending tasks and document reviews." },
-    "alerts": { "title": "System Alerts", "desc": "Monitor critical bottlenecks and compliance risks." },
-    "intelligence": { "title": "Bhumi-AI Intelligence", "desc": "Ask questions, analyze documents, and predict bottlenecks." }
+    "projects": {
+      "title": "Projects Directory",
+      "desc": "Manage and monitor all active land acquisition projects."
+    },
+    "proposals": {
+      "title": "Land Proposals",
+      "desc": "Review and track proposals submitted by Requiring Bodies."
+    },
+    "compensation": {
+      "title": "Compensation & Disbursement",
+      "desc": "Manage awards and track direct benefit transfers (DBT)."
+    },
+    "rr": {
+      "title": "Rehabilitation & Resettlement (R&R)",
+      "desc": "Track and manage displaced families and their rehabilitation entitlements."
+    },
+    "possession": {
+      "title": "Land Possession",
+      "desc": "Track physical handover and encumbrance clearing of acquired land."
+    },
+    "gis": {
+      "title": "Spatial Viewer",
+      "desc": "Geospatial mapping of land parcels and project corridors."
+    },
+    "tasks": {
+      "title": "Workflow & Approvals",
+      "desc": "Manage pending tasks and document reviews."
+    },
+    "alerts": {
+      "title": "System Alerts",
+      "desc": "Monitor critical bottlenecks and compliance risks."
+    },
+    "intelligence": {
+      "title": "Bhumi-AI Intelligence",
+      "desc": "Ask questions, analyze documents, and predict bottlenecks."
+    }
+  },
+  "landing": {
+    "navTitle": "BHUMISETU",
+    "login": "Login",
+    "govIndia": "Government of India",
+    "ministryRural": "Ministry of Rural Development",
+    "dolr": "Department of Land Resources",
+    "prototypeAlert": "SIH 2026 • Prototype Environment",
+    "disclaimer": "Demonstration data is synthetic and does not represent live Government records.",
+    "tagline": "Land for a Better Tomorrow",
+    "heroTitle": "From Proposal to Possession, One Connected View.",
+    "heroSubtitle": "BHUMISETU connects projects, land parcels, authorities, documents, compensation, rehabilitation and possession into a unified platform for transparent monitoring and informed decision-making.",
+    "enterPlatform": "Enter BHUMISETU",
+    "lifecycleTitle": "One Connected Land Lifecycle",
+    "stage1": "Proposal & Verification",
+    "stage2": "Notification & GIS",
+    "stage3": "Compensation & Awards",
+    "stage4": "Rehabilitation (R&R)",
+    "stage5": "Final Possession",
+    "stakeholdersTitle": "One Platform for Every Stakeholder",
+    "stakeholderNational": "National Admin",
+    "stakeholderNationalDesc": "Real-time pan-India overview, budget utilization, and critical bottlenecks.",
+    "stakeholderState": "State / District Officer",
+    "stakeholderStateDesc": "Jurisdictional monitoring, workflow approvals, and delay tracking.",
+    "stakeholderRB": "Requiring Body",
+    "stakeholderRBDesc": "Track land proposals, compensation disbursement, and acquisition progress.",
+    "uspTitle": "Actionable Decision Support",
+    "uspRisk": "Predictive Risk Detection",
+    "uspRiskDesc": "Automatically detect project bottlenecks, overdue milestones, and compliance risks.",
+    "uspGIS": "Spatial Intelligence (GIS)",
+    "uspGISDesc": "Interactive mapping of affected land parcels, project corridors, and geo-tagged assets.",
+    "uspWhatIf": "Transparency & Audit",
+    "uspWhatIfDesc": "Complete version control, immutable document repository, and transparent DBT tracking.",
+    "projectCard": {
+      "title": "Project BHU-024",
+      "location": "Pune, Maharashtra",
+      "acq": "Acquisition",
+      "comp": "Compensation",
+      "rr": "R&R",
+      "risk": "High Risk"
+    },
+    "warningCard": {
+      "title": "Early Warning",
+      "desc1": "Possession risk detected",
+      "desc2": "due to compensation backlog and R&R dependency."
+    },
+    "nationalCard": {
+      "title": "National Progress",
+      "projects": "Projects",
+      "acquired": "Land Acquired",
+      "compPaid": "Compensation Paid",
+      "families": "Affected Families"
+    },
+    "stats": {
+      "p1": "386",
+      "p1t": "Projects Nationwide",
+      "p2": "82,450 ha",
+      "p2t": "Land Proposed",
+      "p3": "61,280 ha",
+      "p3t": "Land Acquired",
+      "p4": "₹4,820 Cr",
+      "p4t": "Compensation Paid",
+      "p5": "48,200",
+      "p5t": "Affected Families",
+      "p6": "74%",
+      "p6t": "R&R Progress",
+      "p7": "64%",
+      "p7t": "Possession Ready"
+    },
+    "mapLabels": {
+      "maharashtra": "Maharashtra",
+      "mhProj": "12 Projects",
+      "mhArea": "2,480 ha"
+    },
+    "thumbs": {
+      "t1": "Highways",
+      "t2": "Railways",
+      "t3": "Renewable Energy",
+      "t4": "Industrial Corridors",
+      "t5": "Smart Cities",
+      "t6": "Water Infrastructure"
+    }
+  },
+  "landingMockup": {
+    "overview": "Overview",
+    "howItWorks": "How It Works",
+    "capabilities": "Capabilities",
+    "gisInsights": "GIS & Insights",
+    "stakeholders": "Stakeholders",
+    "resources": "Resources",
+    "contact": "Contact",
+    "watchOverview": "Watch Overview",
+    "unifiedWorkflow": "Unified Workflow",
+    "gisMonitoring": "GIS-Enabled Monitoring",
+    "predictiveIntel": "Predictive Intelligence",
+    "multiStakeholder": "Multi-Stakeholder Coordination",
+    "projectsNationwide": "Projects Nationwide",
+    "landProposed": "Land Proposed",
+    "landAcquired": "Land Acquired",
+    "compPaid": "Compensation Paid",
+    "affectedFam": "Affected Families",
+    "rrProgress": "R&R Progress",
+    "possessionReady": "Possession Ready",
+    "strongerIndia": "A Stronger India Through Efficient Land Management",
+    "verification": "Verification",
+    "scrutiny": "Scrutiny",
+    "approval": "Approval",
+    "notification": "Notification",
+    "award": "Award",
+    "closure": "Closure"
   }
 }

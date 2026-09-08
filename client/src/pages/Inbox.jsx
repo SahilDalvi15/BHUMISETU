@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../hooks/useAuth';
 import useAppStore from '../store/useAppStore';
 import { Inbox as InboxIcon, CheckCircle, Clock, AlertTriangle, FileText, ChevronRight } from 'lucide-react';
 
 const Inbox = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const allTasks = useAppStore(state => state.tasks);
   const [filter, setFilter] = useState('pending');

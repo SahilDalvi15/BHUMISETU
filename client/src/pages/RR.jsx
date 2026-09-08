@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Users, Home, CheckCircle, Search, FileText } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import useAppStore from '../store/useAppStore';
 
 const RR = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const allRRFamilies = useAppStore(state => state.rrFamilies);
   const updateRRFamily = useAppStore(state => state.updateRRFamily);
@@ -36,10 +38,10 @@ const RR = () => {
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center">
             <Users className="w-6 h-6 mr-2 text-indigo-600" />
-            Rehabilitation & Resettlement (R&R)
+            {t("pages.rr.title")}
           </h1>
           <p className="mt-1 text-sm text-gray-500">
-            Track and manage displaced families and their rehabilitation entitlements.
+            {t("pages.rr.desc")}
           </p>
         </div>
       </div>
@@ -88,8 +90,8 @@ const RR = () => {
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Family ID & Project</th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Family Head & Dependents</th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Entitlement Chosen</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t("common.status")}</th>
+                <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{t("common.action")}</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -137,7 +139,7 @@ const RR = () => {
                       ) : (
                         <button className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700">
                           <FileText className="w-4 h-4 mr-1" />
-                          View Details
+                          {t("common.viewDetails")}
                         </button>
                       )}
                     </td>

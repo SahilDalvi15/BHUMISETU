@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Map as MapIcon, Layers, Search, MapPin, Maximize2, AlertTriangle, ChevronRight } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import useAppStore from '../store/useAppStore';
@@ -16,6 +17,7 @@ L.Icon.Default.mergeOptions({
 });
 
 const GIS = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [selectedParcel, setSelectedParcel] = useState(null);
   
@@ -27,7 +29,7 @@ const GIS = () => {
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center">
             <MapIcon className="w-6 h-6 mr-2 text-gov-green" />
-            GIS Spatial Viewer & Parcel Management
+            GIS {t("pages.gis.title")} & Parcel Management
           </h1>
           <p className="mt-1 text-sm text-gray-500">
             Interactive cadastral map integrated with real-time acquisition intelligence.

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Bell, AlertTriangle, CheckCircle, Info, Search } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import useAppStore from '../store/useAppStore';
 
 const Alerts = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const allAlerts = useAppStore(state => state.alerts);
   const resolveAlert = useAppStore(state => state.resolveAlert);
@@ -43,7 +45,7 @@ const Alerts = () => {
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center">
             <Bell className="w-6 h-6 mr-2 text-red-600" />
-            System Alerts & Anomalies
+            {t("pages.alerts.title")} & Anomalies
           </h1>
           <p className="mt-1 text-sm text-gray-500">
             Real-time notifications for delays, risks, and compliance breaches.

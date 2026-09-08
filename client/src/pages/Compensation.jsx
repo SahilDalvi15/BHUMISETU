@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { IndianRupee, CheckCircle, FileText, Search, AlertCircle } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import useAppStore from '../store/useAppStore';
 import { Link } from 'react-router-dom';
 
 const Compensation = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const allCompensations = useAppStore(state => state.compensations);
   const updateCompensation = useAppStore(state => state.updateCompensation);
@@ -97,8 +99,8 @@ const Compensation = () => {
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Claim ID & Project</th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Land Owner & Area</th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Computed Value (INR)</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t("common.status")}</th>
+                <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{t("common.action")}</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -146,7 +148,7 @@ const Compensation = () => {
                       ) : (
                         <Link to="/workflow/tasks" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700">
                           <FileText className="w-4 h-4 mr-1" />
-                          View Details
+                          {t("common.viewDetails")}
                         </Link>
                       )}
                     </td>

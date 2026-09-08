@@ -1,9 +1,11 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Brain, AlertTriangle, TrendingDown, Clock, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import useAppStore from '../store/useAppStore';
 
 const Intelligence = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const allProjects = useAppStore(state => state.projects);
   const allTasks = useAppStore(state => state.tasks);

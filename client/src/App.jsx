@@ -4,6 +4,7 @@ import { AuthProvider } from './hooks/useAuth';
 import Login from './modules/auth/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './layouts/Layout';
+import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import Projects from './pages/Projects';
 import CreateProject from './pages/CreateProject';
@@ -22,6 +23,7 @@ function App() {
     <AuthProvider>
       <Router>
         <Routes>
+          <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           
           <Route element={<ProtectedRoute />}>
@@ -38,7 +40,6 @@ function App() {
               <Route path="/gis" element={<GIS />} />
               <Route path="/inbox" element={<Inbox />} />
               <Route path="/intelligence" element={<Intelligence />} />
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
             </Route>
           </Route>
           
