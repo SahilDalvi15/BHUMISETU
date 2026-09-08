@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Brain, AlertTriangle, TrendingDown, Clock, ShieldAlert } from 'lucide-react';
+import { Brain, AlertTriangle, TrendingDown, Clock, ShieldAlert, Download, Activity } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import useAppStore from '../store/useAppStore';
 
@@ -57,6 +57,16 @@ const Intelligence = () => {
           <p className="mt-1 text-sm text-gray-500">
             Real-time analytics, delay prediction, and automated recommendations.
           </p>
+        </div>
+        <div className="mt-4 sm:mt-0 flex space-x-3">
+          <button className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+            <Download className="w-4 h-4 mr-2 text-gray-500" />
+            Export MIS Report (PDF)
+          </button>
+          <button className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+            <Download className="w-4 h-4 mr-2 text-gray-500" />
+            Export Raw Data (CSV)
+          </button>
         </div>
       </div>
 
@@ -147,6 +157,50 @@ const Intelligence = () => {
             </div>
           </section>
         </div>
+        </div>
+
+        {/* What-If Scenario Simulator */}
+        <section className="glass-panel rounded-xl p-6 mt-6">
+          <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+            <Activity className="w-5 h-5 mr-2 text-blue-600" />
+            What-If Scenario Simulator
+          </h2>
+          <p className="text-sm text-gray-500 mb-6">
+            Adjust variables to simulate the impact on overall project timelines and budget.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Increase Land Acquisition Budget by</label>
+                <select className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                  <option>0%</option>
+                  <option>+10%</option>
+                  <option>+25%</option>
+                  <option>+50%</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Fast-track R&R Approvals</label>
+                <select className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                  <option>No Change</option>
+                  <option>Reduce time by 15 days</option>
+                  <option>Reduce time by 30 days</option>
+                </select>
+              </div>
+              <button className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                Run Simulation
+              </button>
+            </div>
+            
+            <div className="md:col-span-2 bg-blue-50 rounded-lg p-5 border border-blue-100 flex flex-col justify-center items-center text-center">
+              <Activity className="w-10 h-10 text-blue-300 mb-3" />
+              <h3 className="text-sm font-bold text-blue-800 uppercase tracking-wide">Simulation Results</h3>
+              <p className="text-sm text-blue-600 mt-2 max-w-md">
+                Running this scenario indicates a potential reduction of <span className="font-bold">2.4 months</span> in average project delivery time, with a projected impact on <span className="font-bold">14 critical path tasks</span>.
+              </p>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );
