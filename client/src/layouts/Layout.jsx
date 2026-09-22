@@ -12,6 +12,7 @@ import {
   LogOut, 
   Menu,
   Briefcase,
+  Layers,
   Inbox,
   Brain,
   Users,
@@ -40,6 +41,7 @@ const Layout = () => {
   const navItems = [
     { name: t('layout.dashboard'), path: '/dashboard', icon: LayoutDashboard },
     { name: t('layout.projects'), path: '/projects', icon: Briefcase },
+    { name: 'Land Parcels', path: '/parcels', icon: Layers },
     { name: t('layout.proposals'), path: '/proposals', icon: FileText },
     { name: t('layout.compensation'), path: '/compensation', icon: Inbox },
     { name: t('layout.rrFamilies'), path: '/rr', icon: Users },

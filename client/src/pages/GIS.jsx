@@ -1,20 +1,12 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Map as MapIcon, Layers, Search, MapPin, Maximize2, AlertTriangle, ChevronRight } from 'lucide-react';
+import { Map as MapIcon, Layers, Search, MapPin, Maximize2, AlertTriangle, ChevronRight, X } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import useAppStore from '../store/useAppStore';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip as LeafletTooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { Link } from 'react-router-dom';
-
-// Fix for default marker icon in leaflet with Vite
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-});
 
 const GIS = () => {
   const { t } = useTranslation();
@@ -37,97 +29,119 @@ const GIS = () => {
         </div>
       </div>
 
-      <div className="flex-1 flex overflow-hidden bg-white shadow rounded-lg border border-gray-200">
+      <div className="flex-1 relative bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
         
-        {/* Left Side: The "Map" */}
-        <div className="flex-1 relative overflow-hidden border-r border-gray-200 z-0">
-          <MapContainer center={[19.25, 73.40]} zoom={13} className="w-full h-full z-0">
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            {mockParcels.map((parcel) => (
-              <Marker 
-                key={parcel.id} 
-                position={[parcel.lat, parcel.lng]}
-                eventHandlers={{
-                  click: () => {
-                    setSelectedParcel(parcel);
-                  },
-                }}
-              >
-                <Popup>
-                  <strong>{parcel.id}</strong><br />
-                  Owner: {parcel.owner}<br />
-                  Risk: {parcel.risk}
-                </Popup>
-              </Marker>
-            ))}
-          </MapContainer>
+        {/* The Full Width Map */}
+        <MapContainer center={[19.25, 73.40]} zoom={10} className="w-full h-full z-0" zoomControl={false}>
+          <TileLayer
+            attribution='Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+          />
+          {mockParcels.map((parcel) => (
+            <CircleMarker 
+              key={parcel.id} 
+              center={[parcel.lat, parcel.lng]}
+              radius={7}
+              pathOptions={{ 
+                color: parcel.risk === 'HIGH' ? '#ef4444' : parcel.risk === 'MEDIUM' ? '#f59e0b' : '#10b981',
+                fillColor: parcel.risk === 'HIGH' ? '#ef4444' : parcel.risk === 'MEDIUM' ? '#f59e0b' : '#10b981',
+                fillOpacity: 0.9,
+                weight: 2
+              }}
+              eventHandlers={{
+                click: () => {
+                  setSelectedParcel(parcel);
+                },
+              }}
+            >
+              <LeafletTooltip>
+                <strong>{parcel.id}</strong><br/>
+                Risk: {parcel.risk}
+              </LeafletTooltip>
+            </CircleMarker>
+          ))}
+        </MapContainer>
 
-          {/* Map Controls Mock */}
-          <div className="absolute top-4 right-4 bg-white shadow rounded-md p-2 flex flex-col space-y-2 z-[400]">
-            <button className="p-2 text-gray-600 hover:text-gov-green hover:bg-gray-50 rounded"><Layers className="w-5 h-5" /></button>
-            <button className="p-2 text-gray-600 hover:text-gov-green hover:bg-gray-50 rounded"><Search className="w-5 h-5" /></button>
-            <button className="p-2 text-gray-600 hover:text-gov-green hover:bg-gray-50 rounded"><Maximize2 className="w-5 h-5" /></button>
-          </div>
-
-          <div className="absolute bottom-4 left-4 z-[400] bg-white/90 px-3 py-1 rounded shadow text-xs text-gray-500 font-mono">
-            Bhuvan API Connected
+        {/* Floating Quick Presets (Top Left) */}
+        <div className="absolute top-4 left-4 z-[400] flex space-x-2">
+          <div className="bg-white/95 backdrop-blur-sm p-1.5 rounded-lg shadow-md flex items-center border border-gray-100 space-x-1">
+            <span className="text-xs font-bold text-gray-500 uppercase tracking-wider px-2">Quick Presets:</span>
+            <button className="px-3 py-1.5 text-xs font-bold text-indigo-700 bg-indigo-50 rounded-md hover:bg-indigo-100 transition-colors">Mumbai-MMR</button>
+            <button className="px-3 py-1.5 text-xs font-bold text-gray-600 hover:bg-gray-100 rounded-md transition-colors">Delhi NCR</button>
+            <button className="px-3 py-1.5 text-xs font-bold text-gray-600 hover:bg-gray-100 rounded-md transition-colors">Bengaluru Risk Corridor</button>
           </div>
         </div>
 
-        {/* Right Side: Parcel Details Panel */}
-        <div className="w-96 bg-white overflow-y-auto z-10">
-          {selectedParcel ? (
+        {/* Map Controls Mock (Top Right, if no parcel selected) */}
+        {!selectedParcel && (
+          <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm shadow-md rounded-lg p-2 flex flex-col space-y-2 z-[400] border border-gray-100">
+            <button className="p-2 text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-md transition-colors"><Layers className="w-5 h-5" /></button>
+            <button className="p-2 text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-md transition-colors"><Search className="w-5 h-5" /></button>
+            <button className="p-2 text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-md transition-colors"><Maximize2 className="w-5 h-5" /></button>
+          </div>
+        )}
+
+        <div className="absolute bottom-4 left-4 z-[400] bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-md shadow-sm border border-gray-100 text-xs text-gray-500 font-mono font-medium flex items-center">
+          <div className="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></div>
+          Bhuvan API Connected
+        </div>
+
+        {/* Right Side: Floating Parcel Details Panel */}
+        {selectedParcel && (
+          <div className="absolute top-4 right-4 bottom-4 w-96 bg-white/95 backdrop-blur-xl shadow-2xl rounded-2xl border border-gray-100 overflow-y-auto z-[500] animate-fade-in-up">
             <div className="p-6">
-              <div className="flex justify-between items-start mb-6 border-b border-gray-200 pb-4">
+              <div className="flex justify-between items-start mb-6 border-b border-gray-100 pb-4">
                 <div>
                   <h2 className="text-xl font-bold text-gray-900">{selectedParcel.id}</h2>
                   <p className="text-sm text-gray-500 mt-1">Village: Murbad, Thane</p>
                 </div>
-                <span className={`px-2 py-1 text-xs font-bold rounded ${
-                  selectedParcel.risk === 'HIGH' ? 'bg-red-100 text-red-800' : 
-                  selectedParcel.risk === 'MEDIUM' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'
-                }`}>
-                  {selectedParcel.risk} RISK
-                </span>
+                <div className="flex flex-col items-end">
+                  <button onClick={() => setSelectedParcel(null)} className="text-gray-400 hover:text-gray-600 mb-2">
+                    <X className="w-5 h-5" />
+                  </button>
+                  <span className={`px-2 py-1 text-[10px] font-bold rounded-md uppercase tracking-wider ${
+                    selectedParcel.risk === 'HIGH' ? 'bg-red-100 text-red-800' : 
+                    selectedParcel.risk === 'MEDIUM' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
+                  }`}>
+                    {selectedParcel.risk} RISK
+                  </span>
+                </div>
               </div>
 
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide">Parcel Attributes</h3>
-                  <div className="bg-gray-50 p-3 rounded-md border border-gray-200 space-y-2 text-sm">
-                    <div className="flex justify-between"><span className="text-gray-500">Area:</span><span className="font-medium">{selectedParcel.area} Hectares</span></div>
-                    <div className="flex justify-between"><span className="text-gray-500">Type:</span><span className="font-medium">{selectedParcel.type}</span></div>
-                    <div className="flex justify-between"><span className="text-gray-500">Current Owner:</span><span className="font-medium">{selectedParcel.owner}</span></div>
-                    <div className="flex justify-between"><span className="text-gray-500">Location:</span><span className="font-medium">{selectedParcel.lat.toFixed(4)}, {selectedParcel.lng.toFixed(4)}</span></div>
+                  <h3 className="text-[11px] font-bold text-gray-500 mb-3 uppercase tracking-wider">Parcel Attributes</h3>
+                  <div className="bg-gray-50/50 p-4 rounded-xl border border-gray-100 space-y-3 text-sm">
+                    <div className="flex justify-between items-center"><span className="text-gray-500">Area:</span><span className="font-bold text-gray-900">{selectedParcel.area} Hectares</span></div>
+                    <div className="flex justify-between items-center"><span className="text-gray-500">Type:</span><span className="font-bold text-gray-900">{selectedParcel.type}</span></div>
+                    <div className="flex justify-between items-center"><span className="text-gray-500">Current Owner:</span><span className="font-bold text-gray-900">{selectedParcel.owner}</span></div>
+                    <div className="flex justify-between items-center"><span className="text-gray-500">Location:</span><span className="font-mono text-xs text-gray-600">{selectedParcel.lat.toFixed(4)}, {selectedParcel.lng.toFixed(4)}</span></div>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide">Acquisition Status</h3>
+                  <h3 className="text-[11px] font-bold text-gray-500 mb-3 uppercase tracking-wider">Acquisition Status</h3>
                   <div className="flex items-center">
-                    <div className="w-full bg-gray-200 rounded-full h-2.5">
-                      <div className="bg-gov-green h-2.5 rounded-full" style={{ width: selectedParcel.status === 'Land Identified' ? '25%' : selectedParcel.status === 'Notified' ? '50%' : '75%' }}></div>
+                    <div className="w-full bg-gray-100 rounded-full h-2">
+                      <div className="bg-emerald-500 h-2 rounded-full" style={{ width: selectedParcel.status === 'Land Identified' ? '25%' : selectedParcel.status === 'Notified' ? '50%' : '75%' }}></div>
                     </div>
                   </div>
-                  <p className="text-right text-xs text-gray-500 mt-1">{selectedParcel.status}</p>
+                  <p className="text-right text-xs font-bold text-emerald-600 mt-2">{selectedParcel.status}</p>
                 </div>
 
                 {selectedParcel.blocker && (
-                  <div className="bg-red-50 border-l-4 border-red-500 p-3 flex items-start">
-                    <AlertTriangle className="w-5 h-5 text-red-500 mr-2 shrink-0" />
+                  <div className="bg-red-50/50 border border-red-100 rounded-xl p-4 flex items-start">
+                    <AlertTriangle className="w-5 h-5 text-red-500 mr-3 shrink-0" />
                     <div>
-                      <p className="text-sm font-semibold text-red-800">Active Blocker</p>
-                      <p className="text-sm text-red-700">{selectedParcel.blocker}</p>
+                      <p className="text-sm font-bold text-red-800">Active Blocker</p>
+                      <p className="text-xs text-red-700 mt-1 font-medium">{selectedParcel.blocker}</p>
                     </div>
                   </div>
                 )}
 
                 {['Field Verification Officer', 'District Officer', 'State Officer', 'National Admin'].includes(user?.role) && (
-                  <div className="pt-4 border-t border-gray-200">
-                    <Link to="/tasks" className="w-full flex items-center justify-center px-4 py-2 border border-gov-green text-gov-green rounded hover:bg-green-50 transition-colors">
+                  <div className="pt-6 mt-6 border-t border-gray-100">
+                    <Link to="/workflow/tasks" className="w-full flex items-center justify-center px-4 py-3 bg-indigo-50 border border-indigo-100 text-indigo-700 font-bold rounded-xl hover:bg-indigo-100 transition-colors">
                       Log Field Verification
                       <ChevronRight className="w-4 h-4 ml-2" />
                     </Link>
@@ -135,13 +149,8 @@ const GIS = () => {
                 )}
               </div>
             </div>
-          ) : (
-            <div className="h-full flex flex-col items-center justify-center p-6 text-center text-gray-400">
-              <MapIcon className="w-16 h-16 mb-4 opacity-20" />
-              <p className="text-sm">Select a land parcel on the map to view detailed acquisition intelligence.</p>
-            </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

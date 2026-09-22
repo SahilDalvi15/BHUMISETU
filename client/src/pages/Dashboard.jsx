@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Map, Users, TrendingUp, AlertTriangle, Wifi, FileText, CheckCircle, FilePlus, ArrowRight, Activity, DollarSign, Target } from 'lucide-react';
+import { Map, Users, TrendingUp, AlertTriangle, Wifi, FileText, CheckCircle, FilePlus, ArrowRight, Activity, DollarSign, Target, Shield, MapPin } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import useAppStore from '../store/useAppStore';
 import { Link } from 'react-router-dom';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, BarChart, Bar, Legend, Cell, PieChart, Pie } from 'recharts';
 import { useTranslation } from 'react-i18next';
+import { MapContainer, TileLayer, CircleMarker, Tooltip as LeafletTooltip } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -128,45 +130,84 @@ const Dashboard = () => {
       </div>
 
       {/* Hero Statistics */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div className="absolute -right-6 -top-6 bg-emerald-50 rounded-full w-24 h-24 group-hover:scale-110 transition-transform duration-500 opacity-50"></div>
-          <dt className="text-sm font-bold text-gray-500 tracking-wide flex items-center mb-4"><Map className="w-5 h-5 mr-2 text-emerald-600"/> {user.role === 'Land Requiring Body' ? t('dashboard.myProjects') : t('dashboard.activeProjects')}</dt>
-          <dd className="text-4xl font-extrabold text-gray-900">{stats.totalProjects}</dd>
-          <p className="text-xs font-semibold text-emerald-600 mt-2">↑ 12% from last quarter</p>
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="bg-white rounded-2xl p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border border-gray-100/50 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-300 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-bl-[100px] -z-10 group-hover:scale-110 transition-transform duration-500"></div>
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center shadow-inner">
+              <Map className="w-6 h-6 text-emerald-600" />
+            </div>
+            <span className="flex items-center text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 shadow-sm">
+              ▲ 12%
+            </span>
+          </div>
+          <dt className="text-sm font-bold text-gray-500 tracking-wider uppercase mb-1">{user.role === 'Land Requiring Body' ? t('dashboard.myProjects') : t('dashboard.activeProjects')}</dt>
+          <dd className="text-4xl font-black text-gray-900 tracking-tight">{stats.totalProjects}</dd>
+          <p className="text-xs font-semibold text-gray-400 mt-3 flex items-center"><CheckCircle className="w-3 h-3 mr-1 text-emerald-500"/> Verified active corridors</p>
         </div>
         
-        <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div className="absolute -right-6 -top-6 bg-blue-50 rounded-full w-24 h-24 group-hover:scale-110 transition-transform duration-500 opacity-50"></div>
-          <dt className="text-sm font-bold text-gray-500 tracking-wide flex items-center mb-4"><Target className="w-5 h-5 mr-2 text-blue-600"/> {t('dashboard.avgProgress')}</dt>
-          <dd className="text-4xl font-extrabold text-gray-900">{stats.avgProgress}%</dd>
-          <div className="w-full bg-gray-200 rounded-full h-1.5 mt-3">
-            <div className="bg-blue-600 h-1.5 rounded-full" style={{ width: `${stats.avgProgress}%` }}></div>
+        <div className="bg-white rounded-2xl p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border border-gray-100/50 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-300 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-bl-[100px] -z-10 group-hover:scale-110 transition-transform duration-500"></div>
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center shadow-inner">
+              <Target className="w-6 h-6 text-blue-600" />
+            </div>
+            <span className="flex items-center text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-200 shadow-sm">
+              ▲ On Track
+            </span>
+          </div>
+          <dt className="text-sm font-bold text-gray-500 tracking-wider uppercase mb-1">{t('dashboard.avgProgress')}</dt>
+          <div className="flex items-baseline space-x-2">
+            <dd className="text-4xl font-black text-gray-900 tracking-tight">{stats.avgProgress}%</dd>
+          </div>
+          <div className="w-full bg-gray-100 rounded-full h-1.5 mt-4 overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-400 to-blue-600 h-1.5 rounded-full" style={{ width: `${stats.avgProgress}%` }}></div>
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div className="absolute -right-6 -top-6 bg-purple-50 rounded-full w-24 h-24 group-hover:scale-110 transition-transform duration-500 opacity-50"></div>
-          <dt className="text-sm font-bold text-gray-500 tracking-wide flex items-center mb-4"><Users className="w-5 h-5 mr-2 text-purple-600"/> {t('dashboard.affectedParcels')}</dt>
-          <dd className="text-4xl font-extrabold text-gray-900">{stats.parcelsIdentified.toLocaleString()}</dd>
-          <p className="text-xs font-semibold text-purple-600 mt-2">{t('dashboard.acrossCorridors', { count: myProjects.length })}</p>
+        <div className="bg-white rounded-2xl p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border border-gray-100/50 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-300 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-bl-[100px] -z-10 group-hover:scale-110 transition-transform duration-500"></div>
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 rounded-2xl bg-purple-50 border border-purple-100 flex items-center justify-center shadow-inner">
+              <Users className="w-6 h-6 text-purple-600" />
+            </div>
+            <span className="flex items-center text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200 shadow-sm">
+              Verified
+            </span>
+          </div>
+          <dt className="text-sm font-bold text-gray-500 tracking-wider uppercase mb-1">{t('dashboard.affectedParcels')}</dt>
+          <dd className="text-4xl font-black text-gray-900 tracking-tight">{stats.parcelsIdentified.toLocaleString()}</dd>
+          <p className="text-xs font-semibold text-gray-400 mt-3 flex items-center"><MapPin className="w-3 h-3 mr-1 text-purple-500"/> {t('dashboard.acrossCorridors', { count: myProjects.length })}</p>
         </div>
 
-        <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div className="absolute -right-6 -top-6 bg-amber-50 rounded-full w-24 h-24 group-hover:scale-110 transition-transform duration-500 opacity-50"></div>
-          <dt className="text-sm font-bold text-gray-500 tracking-wide flex items-center mb-4"><DollarSign className="w-5 h-5 mr-2 text-amber-500"/> {user.role === 'Land Requiring Body' ? t('dashboard.estBudget') : t('dashboard.disbursed')}</dt>
-          <dd className="text-4xl font-extrabold text-gray-900">₹{stats.disbursedCrores}</dd>
-          <p className="text-xs font-semibold text-amber-600 mt-2">{t('dashboard.dbtTransfers')}</p>
+        <div className="bg-white rounded-2xl p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border border-gray-100/50 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-300 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-bl-[100px] -z-10 group-hover:scale-110 transition-transform duration-500"></div>
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center shadow-inner">
+              <DollarSign className="w-6 h-6 text-amber-600" />
+            </div>
+            <span className="flex items-center text-xs font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200 shadow-sm">
+              ▲ PFMS Sync
+            </span>
+          </div>
+          <dt className="text-sm font-bold text-gray-500 tracking-wider uppercase mb-1">{user.role === 'Land Requiring Body' ? t('dashboard.estBudget') : t('dashboard.disbursed')}</dt>
+          <dd className="text-4xl font-black text-gray-900 tracking-tight">₹{stats.disbursedCrores}</dd>
+          <p className="text-xs font-semibold text-gray-400 mt-3 flex items-center"><Shield className="w-3 h-3 mr-1 text-amber-500"/> Direct Benefit Transfers</p>
         </div>
       </div>
 
       {/* Analytics Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <h2 className="text-lg font-bold text-gray-800 mb-6 flex items-center">
-            <TrendingUp className="w-5 h-5 mr-2 text-emerald-600" />
-            {t('dashboard.acquisitionTrajectory')}
-          </h2>
+        <div className="lg:col-span-2 bg-white p-6 rounded-3xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border border-gray-100/50">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-xl font-bold text-gray-900 flex items-center tracking-tight">
+              <TrendingUp className="w-6 h-6 mr-3 text-emerald-600 bg-emerald-50 p-1 rounded-lg" />
+              {t('dashboard.acquisitionTrajectory')}
+            </h2>
+            <span className="text-xs font-bold text-gray-500 bg-gray-100 px-3 py-1 rounded-full border border-gray-200">
+              FY 2026-27 YTD
+            </span>
+          </div>
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={progressData} margin={{ top: 20, right: 30, left: -20, bottom: 0 }}>
@@ -179,10 +220,10 @@ const Dashboard = () => {
                     <feDropShadow dx="0" dy="10" stdDeviation="10" floodColor="#10b981" floodOpacity="0.3"/>
                   </filter>
                 </defs>
-                <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="#e2e8f0" opacity={0.6} />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12, fontWeight: 600}} dy={10} />
-                <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12, fontWeight: 600}} tickFormatter={(val) => val === 0 ? '0' : `${val}`} />
-                <RechartsTooltip content={<CustomChartTooltip />} cursor={{ stroke: '#cbd5e1', strokeWidth: 1, strokeDasharray: '4 4' }} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 11, fontWeight: 500}} dy={15} />
+                <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 11, fontWeight: 500}} tickFormatter={(val) => val === 0 ? '0' : `${val}`} dx={-10} />
+                <RechartsTooltip content={<CustomChartTooltip />} cursor={{ fill: 'rgba(16, 185, 129, 0.05)' }} />
                 
                 <Area 
                   type="monotone" 
@@ -211,25 +252,30 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <h2 className="text-lg font-bold text-gray-800 mb-6 flex items-center">
-            <Activity className="w-5 h-5 mr-2 text-blue-600" />
-            {t('dashboard.projectsByStage')}
-          </h2>
-          <div className="h-64 flex justify-center">
+        <div className="bg-white p-6 rounded-3xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border border-gray-100/50">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-xl font-bold text-gray-900 flex items-center tracking-tight">
+              <Activity className="w-6 h-6 mr-3 text-blue-600 bg-blue-50 p-1 rounded-lg" />
+              {t('dashboard.projectsByStage')}
+            </h2>
+          </div>
+          <div className="h-64 flex justify-center relative">
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+              <span className="text-4xl font-black text-gray-900 tracking-tighter">{stats.totalProjects}</span>
+              <span className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Total</span>
+            </div>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={stageData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={65}
-                  outerRadius={90}
-                  paddingAngle={8}
+                  innerRadius={70}
+                  outerRadius={95}
+                  paddingAngle={6}
                   dataKey="value"
-                  stroke="#fff"
-                  strokeWidth={3}
-                  cornerRadius={8}
+                  stroke="none"
+                  cornerRadius={12}
                 >
                   {stageData.map((entry, index) => (
                     <Cell 
@@ -252,6 +298,97 @@ const Dashboard = () => {
                 <span className="text-gray-900 font-bold bg-white px-2 py-0.5 rounded shadow-sm text-xs">{stage.value}</span>
               </div>
             ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Geospatial Tracker & State Benchmarks */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden flex flex-col">
+          <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
+            <Map className="w-5 h-5 mr-2 text-indigo-600" />
+            National Land Acquisition Geospatial Tracker
+          </h2>
+          <div className="flex-1 bg-gray-100 rounded-xl overflow-hidden relative min-h-[350px] z-0">
+            <MapContainer center={[21.0, 78.0]} zoom={4} className="h-full w-full" zoomControl={false}>
+              <TileLayer
+                attribution='Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+                url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+              />
+              {[
+                { lat: 19.07, lng: 72.87, color: '#10b981', label: 'Mumbai-Ahmedabad HSR' },
+                { lat: 28.61, lng: 77.20, color: '#f59e0b', label: 'Delhi-Mumbai Expressway' },
+                { lat: 13.08, lng: 80.27, color: '#10b981', label: 'Chennai Metro' },
+                { lat: 17.38, lng: 78.48, color: '#ef4444', label: 'Hyderabad Ring Road (Disputed)' },
+                { lat: 22.57, lng: 88.36, color: '#f59e0b', label: 'Kolkata Port Expansion' },
+                { lat: 26.91, lng: 75.78, color: '#10b981', label: 'Jaipur Solar Park' },
+              ].map((marker, i) => (
+                <CircleMarker
+                  key={i}
+                  center={[marker.lat, marker.lng]}
+                  pathOptions={{ color: marker.color, fillColor: marker.color, fillOpacity: 0.8 }}
+                  radius={6}
+                >
+                  <LeafletTooltip>{marker.label}</LeafletTooltip>
+                </CircleMarker>
+              ))}
+            </MapContainer>
+            
+            {/* Overlay Map Controls */}
+            <div className="absolute top-4 left-4 z-[1000] flex space-x-2">
+              <span className="bg-white/90 backdrop-blur-sm text-xs font-bold text-gray-700 px-3 py-1.5 rounded-full shadow-sm border border-gray-200">National View</span>
+              <span className="bg-white/90 backdrop-blur-sm text-xs font-bold text-indigo-600 px-3 py-1.5 rounded-full shadow-sm border border-indigo-100 cursor-pointer hover:bg-white">Live Geo-Sync</span>
+            </div>
+            
+            <div className="absolute bottom-4 right-4 z-[1000] bg-white/95 backdrop-blur-sm p-3 rounded-xl shadow-lg border border-gray-100 w-48">
+              <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2 border-b border-gray-100 pb-1">Map Legend</p>
+              <div className="space-y-1.5">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="flex items-center"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500 mr-2"></span> Cleared</span>
+                  <span className="font-bold text-gray-700">124</span>
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="flex items-center"><span className="w-2.5 h-2.5 rounded-full bg-amber-500 mr-2"></span> Pending</span>
+                  <span className="font-bold text-gray-700">47</span>
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="flex items-center"><span className="w-2.5 h-2.5 rounded-full bg-red-500 mr-2"></span> Critical</span>
+                  <span className="font-bold text-gray-700">12</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+          <h2 className="text-lg font-bold text-gray-800 mb-6 flex items-center">
+            <Target className="w-5 h-5 mr-2 text-emerald-600" />
+            State Disbursement Benchmarks
+          </h2>
+          <div className="space-y-5 mt-2">
+            {[
+              { state: 'Gujarat', value: 92, target: 100 },
+              { state: 'Karnataka', value: 85, target: 100 },
+              { state: 'Maharashtra', value: 78, target: 100 },
+              { state: 'Uttar Pradesh', value: 64, target: 100 },
+              { state: 'Madhya Pradesh', value: 58, target: 100 },
+            ].map(bench => (
+              <div key={bench.state}>
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="font-bold text-gray-700">{bench.state}</span>
+                  <span className="font-bold text-emerald-600">{bench.value}%</span>
+                </div>
+                <div className="w-full bg-gray-100 rounded-full h-2">
+                  <div className={`h-2 rounded-full ${bench.value > 80 ? 'bg-emerald-500' : bench.value > 60 ? 'bg-amber-500' : 'bg-red-500'}`} style={{ width: `${bench.value}%` }}></div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 pt-4 border-t border-gray-100">
+            <p className="text-xs text-gray-500 flex justify-between">
+              <span>National Average: 80.5%</span>
+              <span className="text-emerald-600 font-bold">▲ 3.2% vs Last FY</span>
+            </p>
           </div>
         </div>
       </div>

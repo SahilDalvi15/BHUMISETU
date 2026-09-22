@@ -7,6 +7,7 @@ import Layout from './layouts/Layout';
 import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import Projects from './pages/Projects';
+import Parcels from './pages/Parcels';
 import CreateProject from './pages/CreateProject';
 import Proposals from './pages/Proposals';
 import Inbox from './pages/Inbox';
@@ -33,6 +34,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/projects/create" element={<CreateProject />} />
+              <Route path="/parcels" element={<Parcels />} />
               <Route path="/proposals" element={<Proposals />} />
               <Route path="/compensation" element={<Compensation />} />
               <Route path="/rr" element={<RR />} />
