@@ -104,7 +104,7 @@ const Landing = () => {
       </nav>
 
       {/* 3. Hero Section (Cinematic Image Carousel) */}
-      <div className="relative h-screen flex items-center justify-center text-center overflow-hidden">
+      <div className="relative h-screen min-h-[650px] flex items-center justify-center text-center overflow-hidden">
         {/* Dynamic Backgrounds */}
         <div className="absolute inset-0 z-0 bg-black">
           {heroImages.map((img, idx) => (
@@ -120,7 +120,7 @@ const Landing = () => {
         </div>
         
         {/* Hero Content */}
-        <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center mt-16">
+        <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center mt-16 mb-24 md:mb-16">
           <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-white/10 text-white backdrop-blur-md border border-white/20 mb-8 uppercase tracking-widest shadow-lg">
             <ShieldCheck className="w-4 h-4 mr-2" />
             National Digital Land System
