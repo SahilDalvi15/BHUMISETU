@@ -80,7 +80,7 @@ const GIS = () => {
           </div>
         )}
 
-        <div className="absolute bottom-4 sm:bottom-4 left-2 sm:left-4 z-[400] bg-white/95 backdrop-blur-sm px-2 sm:px-3 py-1 sm:py-1.5 rounded-md shadow-sm border border-gray-100 text-[10px] sm:text-xs text-gray-500 font-mono font-medium flex items-center">
+        <div className="absolute bottom-8 sm:bottom-6 left-2 sm:left-4 z-[400] bg-white/95 backdrop-blur-sm px-2 sm:px-3 py-1 sm:py-1.5 rounded-md shadow-sm border border-gray-100 text-[10px] sm:text-xs text-gray-500 font-mono font-medium flex items-center">
           <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-green-500 mr-1.5 sm:mr-2 animate-pulse"></div>
           Bhuvan API Connected
         </div>
