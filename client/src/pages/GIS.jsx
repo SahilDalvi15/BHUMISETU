@@ -32,9 +32,8 @@ const GIS = () => {
       <div className="flex-1 relative bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
         
         {/* The Full Width Map */}
-        <MapContainer center={[19.25, 73.40]} zoom={10} className="w-full h-full z-0" zoomControl={false}>
+        <MapContainer center={[19.25, 73.40]} zoom={10} className="w-full h-full z-0" zoomControl={false} attributionControl={false}>
           <TileLayer
-            attribution='Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
           />
           {mockParcels.map((parcel) => (
@@ -63,12 +62,12 @@ const GIS = () => {
         </MapContainer>
 
         {/* Floating Quick Presets (Top Left) */}
-        <div className="absolute top-2 sm:top-4 left-2 sm:left-4 right-12 sm:right-auto z-[400]">
+        <div className="absolute top-2 sm:top-4 left-2 sm:left-4 z-[400] max-w-[calc(100%-3.5rem)] sm:max-w-none">
           <div className="bg-white/95 backdrop-blur-sm p-1 sm:p-1.5 rounded-lg shadow-md flex items-center border border-gray-100 gap-1 sm:space-x-1 overflow-x-auto no-scrollbar">
-            <span className="hidden sm:inline text-xs font-bold text-gray-500 uppercase tracking-wider px-2">Quick Presets:</span>
-            <button className="px-2 sm:px-3 py-1.5 text-[10px] sm:text-xs font-bold text-indigo-700 bg-indigo-50 rounded-md hover:bg-indigo-100 transition-colors whitespace-nowrap">Mumbai-MMR</button>
-            <button className="px-2 sm:px-3 py-1.5 text-[10px] sm:text-xs font-bold text-gray-600 hover:bg-gray-100 rounded-md transition-colors whitespace-nowrap">Delhi NCR</button>
-            <button className="hidden sm:inline-block px-3 py-1.5 text-[10px] sm:text-xs font-bold text-gray-600 hover:bg-gray-100 rounded-md transition-colors whitespace-nowrap">Bengaluru Risk Corridor</button>
+            <span className="hidden sm:inline text-xs font-bold text-gray-500 uppercase tracking-wider px-2 shrink-0">Quick Presets:</span>
+            <button className="px-2 sm:px-3 py-1.5 text-[10px] sm:text-xs font-bold text-indigo-700 bg-indigo-50 rounded-md hover:bg-indigo-100 transition-colors whitespace-nowrap shrink-0">Mumbai-MMR</button>
+            <button className="px-2 sm:px-3 py-1.5 text-[10px] sm:text-xs font-bold text-gray-600 hover:bg-gray-100 rounded-md transition-colors whitespace-nowrap shrink-0">Delhi NCR</button>
+            <button className="hidden sm:inline-block px-3 py-1.5 text-[10px] sm:text-xs font-bold text-gray-600 hover:bg-gray-100 rounded-md transition-colors whitespace-nowrap shrink-0">Bengaluru Risk Corridor</button>
           </div>
         </div>
 
@@ -81,7 +80,7 @@ const GIS = () => {
           </div>
         )}
 
-        <div className="absolute bottom-6 sm:bottom-4 left-2 sm:left-4 z-[400] bg-white/95 backdrop-blur-sm px-2 sm:px-3 py-1 sm:py-1.5 rounded-md shadow-sm border border-gray-100 text-[10px] sm:text-xs text-gray-500 font-mono font-medium flex items-center">
+        <div className="absolute bottom-4 sm:bottom-4 left-2 sm:left-4 z-[400] bg-white/95 backdrop-blur-sm px-2 sm:px-3 py-1 sm:py-1.5 rounded-md shadow-sm border border-gray-100 text-[10px] sm:text-xs text-gray-500 font-mono font-medium flex items-center">
           <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-green-500 mr-1.5 sm:mr-2 animate-pulse"></div>
           Bhuvan API Connected
         </div>
