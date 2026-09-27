@@ -43,68 +43,9 @@ const Landing = () => {
   return (
     <div className="min-h-screen bg-[#F8FAFC] flex flex-col font-sans text-[#0F172A]">
       
-      {/* 1. Government Context Bar (40px) */}
-      <div className="bg-[#F1F5F9] border-b border-[#E2E8F0] h-10 px-4 flex justify-between items-center z-50 text-xs font-semibold text-[#334155] tracking-wide">
-        <div className="flex items-center space-x-2">
-          <span className="uppercase text-[#13643B] tracking-widest font-bold">{t('landing.govIndia')}</span>
-          <span className="hidden sm:inline text-[#64748B]">•</span>
-          <span className="hidden sm:inline">{t('landing.ministryRural')}</span>
-          <span className="hidden sm:inline text-[#64748B]">•</span>
-          <span>{t('landing.dolr')}</span>
-        </div>
-      </div>
-
-      {/* 2. Main Navigation (Transparent Overlay) */}
-      <nav className="absolute top-10 left-0 right-0 z-50">
-        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-20 items-center border-b border-white/10">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 flex items-center">
-                <img 
-                  className="h-8 sm:h-10 w-auto p-1 rounded bg-white shadow-lg" 
-                  src="/logo.jpg" 
-                  alt="BhumiSetu Logo" 
-                  onError={(e) => e.target.style.display='none'} 
-                />
-                <div className="ml-2 sm:ml-4 border-l-2 border-white/30 pl-2 sm:pl-4 py-1">
-                  <h1 className="text-lg sm:text-2xl font-bold tracking-tight text-white leading-none drop-shadow-md">
-                    {t('landing.navTitle')}
-                  </h1>
-                  <p className="hidden sm:block text-[11px] text-gray-300 font-semibold uppercase tracking-widest mt-1 drop-shadow-md">
-                    {t('landing.tagline')}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2 sm:space-x-6">
-              {/* Glass Language Switcher */}
-              <div className="relative flex items-center bg-white/10 hover:bg-white/20 backdrop-blur-md transition-colors rounded-full h-8 sm:h-10 px-2 sm:px-4 border border-white/20">
-                <Globe className="hidden sm:block w-4 h-4 text-white mr-2" />
-                <select
-                  value={i18n.language}
-                  onChange={(e) => i18n.changeLanguage(e.target.value)}
-                  className="bg-transparent text-white text-xs sm:text-sm font-semibold focus:outline-none cursor-pointer appearance-none pr-1 sm:pr-2 [&>option]:text-black"
-                >
-                  <option value="en">EN</option>
-                  <option value="hi">HI</option>
-                  <option value="mr">MR</option>
-                </select>
-              </div>
-              
-              <Link to="/login" className="text-sm font-semibold text-gray-200 hover:text-white transition-colors hidden md:block drop-shadow-md">
-                {t('landing.login')}
-              </Link>
-              <Link to="/dashboard" className="inline-flex items-center h-8 sm:h-10 px-3 sm:px-6 border border-white/20 text-xs sm:text-sm font-bold rounded-full text-white bg-white/10 hover:bg-white/20 backdrop-blur-md transition-all whitespace-nowrap">
-                <span className="hidden sm:inline">{t('landing.enterPlatform')}</span>
-                <span className="sm:hidden">Enter</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* 3. Hero Section (Cinematic Image Carousel) */}
-      <div className="relative h-screen min-h-[650px] flex items-center justify-center text-center overflow-hidden">
+      {/* 1. Hero Section Container (Flex Column) */}
+      <div className="relative min-h-screen flex flex-col overflow-hidden">
+        
         {/* Dynamic Backgrounds */}
         <div className="absolute inset-0 z-0 bg-black">
           {heroImages.map((img, idx) => (
@@ -115,39 +56,97 @@ const Landing = () => {
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${currentImageIndex === idx ? 'opacity-70' : 'opacity-0'}`} 
             />
           ))}
-          {/* Gradient Overlay for Text Readability - Tighter at top for Nav */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#0F172A]/90 via-transparent to-[#0F172A]/90 z-10" />
         </div>
+
+        {/* 1. Government Context Bar (Relative, above image) */}
+        <div className="relative z-50 bg-[#F1F5F9]/95 backdrop-blur-md border-b border-[#E2E8F0] min-h-[40px] py-1.5 px-4 flex flex-wrap justify-between items-center text-[10px] sm:text-xs font-semibold text-[#334155] tracking-wide">
+          <div className="flex items-center flex-wrap gap-x-2 gap-y-1">
+            <span className="uppercase text-[#13643B] tracking-widest font-bold">{t('landing.govIndia')}</span>
+            <span className="hidden sm:inline text-[#64748B]">•</span>
+            <span className="hidden sm:inline">{t('landing.ministryRural')}</span>
+            <span className="hidden sm:inline text-[#64748B]">•</span>
+            <span>{t('landing.dolr')}</span>
+          </div>
+        </div>
+
+        {/* 2. Main Navigation (Relative, above image) */}
+        <nav className="relative z-50 w-full bg-gradient-to-b from-black/60 to-transparent">
+          <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+            <div className="flex justify-between h-16 sm:h-20 items-center border-b border-white/10">
+              <div className="flex items-center">
+                <div className="flex-shrink-0 flex items-center">
+                  <img 
+                    className="h-7 sm:h-10 w-auto p-1 rounded bg-white shadow-lg" 
+                    src="/logo.jpg" 
+                    alt="BhumiSetu Logo" 
+                    onError={(e) => e.target.style.display='none'} 
+                  />
+                  <div className="ml-2 sm:ml-4 border-l-2 border-white/30 pl-2 sm:pl-4 py-1">
+                    <h1 className="text-base sm:text-2xl font-bold tracking-tight text-white leading-none drop-shadow-md">
+                      {t('landing.navTitle')}
+                    </h1>
+                    <p className="hidden sm:block text-[11px] text-gray-300 font-semibold uppercase tracking-widest mt-1 drop-shadow-md">
+                      {t('landing.tagline')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2 sm:space-x-6">
+                <div className="relative flex items-center bg-white/10 hover:bg-white/20 backdrop-blur-md transition-colors rounded-full h-7 sm:h-10 px-2 sm:px-4 border border-white/20">
+                  <Globe className="hidden sm:block w-4 h-4 text-white mr-2" />
+                  <select
+                    value={i18n.language}
+                    onChange={(e) => i18n.changeLanguage(e.target.value)}
+                    className="bg-transparent text-white text-[10px] sm:text-sm font-semibold focus:outline-none cursor-pointer appearance-none pr-1 sm:pr-2 [&>option]:text-black"
+                  >
+                    <option value="en">EN</option>
+                    <option value="hi">HI</option>
+                    <option value="mr">MR</option>
+                  </select>
+                </div>
+                
+                <Link to="/login" className="text-sm font-semibold text-gray-200 hover:text-white transition-colors hidden md:block drop-shadow-md">
+                  {t('landing.login')}
+                </Link>
+                <Link to="/dashboard" className="inline-flex items-center h-7 sm:h-10 px-3 sm:px-6 border border-white/20 text-[10px] sm:text-sm font-bold rounded-full text-white bg-white/10 hover:bg-white/20 backdrop-blur-md transition-all whitespace-nowrap">
+                  <span className="hidden sm:inline">{t('landing.enterPlatform')}</span>
+                  <span className="sm:hidden">Enter</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </nav>
         
-        {/* Hero Content */}
-        <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center mt-16 mb-24 md:mb-16">
-          <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-white/10 text-white backdrop-blur-md border border-white/20 mb-8 uppercase tracking-widest shadow-lg">
-            <ShieldCheck className="w-4 h-4 mr-2" />
+        {/* Hero Content (Flex child, grows to fill space) */}
+        <div className="relative z-20 flex-1 flex flex-col items-center justify-center w-full max-w-5xl mx-auto px-4 py-6 sm:py-12">
+          <span className="inline-flex items-center px-3 sm:px-4 py-1.5 rounded-full text-[9px] sm:text-xs font-bold bg-white/10 text-white backdrop-blur-md border border-white/20 mb-4 sm:mb-8 uppercase tracking-widest shadow-lg text-center leading-tight">
+            <ShieldCheck className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 shrink-0" />
             National Digital Land System
           </span>
           
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-tight drop-shadow-2xl">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-white leading-tight drop-shadow-2xl text-center">
             {t('landing.heroTitle')}
           </h1>
           
-          <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-gray-200 leading-relaxed font-medium drop-shadow-md">
+          <p className="mt-4 sm:mt-6 max-w-3xl mx-auto text-sm sm:text-base md:text-xl text-gray-200 leading-relaxed font-medium drop-shadow-md text-center">
             {t('landing.heroSubtitle')}
           </p>
           
-          <div className="mt-8 sm:mt-12 flex justify-center gap-4">
-            <Link to="/dashboard" className="h-12 sm:h-14 px-6 sm:px-8 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white/20 text-base sm:text-lg font-bold flex items-center group shadow-2xl transition-all hover:scale-105 border border-white/20">
+          <div className="mt-6 sm:mt-8 flex justify-center gap-4">
+            <Link to="/dashboard" className="h-10 sm:h-14 px-6 sm:px-8 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white/20 text-xs sm:text-lg font-bold flex items-center group shadow-2xl transition-all hover:scale-105 border border-white/20">
               {t('landing.enterPlatform')}
-              <ArrowRight className="ml-2 sm:ml-3 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="ml-2 sm:ml-3 w-3 h-3 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform shrink-0" />
             </Link>
           </div>
         </div>
         
-        {/* Mock Logos at bottom (Fixed position inside container) */}
-        <div className="absolute bottom-8 sm:bottom-12 left-0 right-0 z-20 flex flex-wrap justify-center items-center gap-x-4 gap-y-2 sm:space-x-10 px-4 opacity-70 text-white font-bold text-[10px] sm:text-sm uppercase tracking-widest text-center">
-          <span className="flex flex-col items-center"><span className="text-[8px] sm:text-[10px] text-gray-300 mb-1 sm:mb-2">Trusted By</span> NHAI</span>
-          <span className="mt-3 sm:mt-5">MoRTH</span>
-          <span className="mt-3 sm:mt-5 hidden sm:inline">Indian Railways</span>
-          <span className="mt-3 sm:mt-5">State Revenue</span>
+        {/* Mock Logos at bottom (Flow naturally at end of container) */}
+        <div className="relative z-20 w-full pb-4 sm:pb-6 pt-2 sm:pt-4 flex flex-wrap justify-center items-center gap-x-4 gap-y-3 px-4 opacity-70 text-white font-bold text-[8px] sm:text-sm uppercase tracking-widest text-center mt-auto bg-gradient-to-t from-black/60 to-transparent">
+          <span className="flex flex-col items-center"><span className="text-[7px] sm:text-[10px] text-gray-300 mb-0.5 sm:mb-2">Trusted By</span> NHAI</span>
+          <span className="mt-2 sm:mt-5">MoRTH</span>
+          <span className="mt-2 sm:mt-5 hidden sm:inline">Indian Railways</span>
+          <span className="mt-2 sm:mt-5">State Revenue</span>
         </div>
       </div>
 
