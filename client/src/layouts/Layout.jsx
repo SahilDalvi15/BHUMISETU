@@ -111,7 +111,41 @@ const Layout = () => {
           </nav>
         </div>
         
-        <div className="p-4 border-t border-gray-200 shrink-0 space-y-2">
+        <div className="p-4 border-t border-gray-200 shrink-0 space-y-4">
+          {/* Mobile-visible Language and User Switcher */}
+          <div className="flex flex-col space-y-3 sm:hidden">
+            <div>
+              <label className="text-xs text-gray-500 font-medium mb-1 block">Language</label>
+              <select
+                className="w-full text-sm font-semibold bg-gray-50 border border-gray-200 text-gray-700 rounded focus:ring-emerald-500 focus:border-emerald-500 py-1.5 pl-2 pr-8 cursor-pointer"
+                value={i18n.language}
+                onChange={(e) => {
+                  i18n.changeLanguage(e.target.value);
+                  setSidebarOpen(false);
+                }}
+              >
+                <option value="en">English (EN)</option>
+                <option value="hi">हिंदी (HI)</option>
+                <option value="mr">मराठी (MR)</option>
+              </select>
+            </div>
+            
+            <div>
+              <label className="text-xs text-gray-500 font-medium mb-1 block">{t('layout.demoUserSwitcher')}</label>
+              <select 
+                className="w-full text-sm border border-gray-300 rounded focus:ring-emerald-500 focus:border-emerald-500 py-1.5 pl-2 pr-8"
+                value={user?.id || ''}
+                onChange={(e) => {
+                  setActiveUser(e.target.value);
+                  setSidebarOpen(false);
+                }}
+              >
+                {allUsers.map(u => (
+                  <option key={u.id} value={u.id}>{u.role} ({u.name})</option>
+                ))}
+              </select>
+            </div>
+          </div>
           <Link
             to="/"
             className="flex items-center w-full px-3 py-2 text-sm font-medium text-emerald-700 bg-emerald-50 rounded-md hover:bg-emerald-100 transition-colors"
@@ -161,7 +195,7 @@ const Layout = () => {
               <div className="flex flex-col mr-3 items-end">
                 <span className="text-xs text-gray-500 font-medium">{t('layout.demoUserSwitcher')}</span>
                 <select 
-                  className="text-sm border-gray-300 rounded focus:ring-emerald-500 focus:border-emerald-500 py-1 pl-2 pr-8"
+                  className="text-sm border border-gray-300 rounded focus:ring-emerald-500 focus:border-emerald-500 py-1 pl-2 pr-8 max-w-[150px] md:max-w-xs truncate"
                   value={user?.id || ''}
                   onChange={(e) => setActiveUser(e.target.value)}
                 >

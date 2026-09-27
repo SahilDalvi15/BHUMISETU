@@ -56,46 +56,47 @@ const Landing = () => {
 
       {/* 2. Main Navigation (Transparent Overlay) */}
       <nav className="absolute top-10 left-0 right-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center border-b border-white/10">
             <div className="flex items-center">
               <div className="flex-shrink-0 flex items-center">
                 <img 
-                  className="h-10 w-auto p-1 rounded bg-white shadow-lg" 
+                  className="h-8 sm:h-10 w-auto p-1 rounded bg-white shadow-lg" 
                   src="/logo.jpg" 
                   alt="BhumiSetu Logo" 
                   onError={(e) => e.target.style.display='none'} 
                 />
-                <div className="ml-4 border-l-2 border-white/30 pl-4 py-1">
-                  <h1 className="text-2xl font-bold tracking-tight text-white leading-none drop-shadow-md">
+                <div className="ml-2 sm:ml-4 border-l-2 border-white/30 pl-2 sm:pl-4 py-1">
+                  <h1 className="text-lg sm:text-2xl font-bold tracking-tight text-white leading-none drop-shadow-md">
                     {t('landing.navTitle')}
                   </h1>
-                  <p className="text-[11px] text-gray-300 font-semibold uppercase tracking-widest mt-1 drop-shadow-md">
+                  <p className="hidden sm:block text-[11px] text-gray-300 font-semibold uppercase tracking-widest mt-1 drop-shadow-md">
                     {t('landing.tagline')}
                   </p>
                 </div>
               </div>
             </div>
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-2 sm:space-x-6">
               {/* Glass Language Switcher */}
-              <div className="relative flex items-center bg-white/10 hover:bg-white/20 backdrop-blur-md transition-colors rounded-full h-10 px-4 border border-white/20">
-                <Globe className="w-4 h-4 text-white mr-2" />
+              <div className="relative flex items-center bg-white/10 hover:bg-white/20 backdrop-blur-md transition-colors rounded-full h-8 sm:h-10 px-2 sm:px-4 border border-white/20">
+                <Globe className="hidden sm:block w-4 h-4 text-white mr-2" />
                 <select
                   value={i18n.language}
                   onChange={(e) => i18n.changeLanguage(e.target.value)}
-                  className="bg-transparent text-white text-sm font-semibold focus:outline-none cursor-pointer appearance-none pr-2 [&>option]:text-black"
+                  className="bg-transparent text-white text-xs sm:text-sm font-semibold focus:outline-none cursor-pointer appearance-none pr-1 sm:pr-2 [&>option]:text-black"
                 >
-                  <option value="en">English</option>
-                  <option value="hi">हिंदी</option>
-                  <option value="mr">मराठी</option>
+                  <option value="en">EN</option>
+                  <option value="hi">HI</option>
+                  <option value="mr">MR</option>
                 </select>
               </div>
               
-              <Link to="/login" className="text-sm font-semibold text-gray-200 hover:text-white transition-colors hidden sm:block drop-shadow-md">
+              <Link to="/login" className="text-sm font-semibold text-gray-200 hover:text-white transition-colors hidden md:block drop-shadow-md">
                 {t('landing.login')}
               </Link>
-              <Link to="/dashboard" className="inline-flex items-center h-10 px-6 border border-white/20 text-sm font-bold rounded-full text-white bg-white/10 hover:bg-white/20 backdrop-blur-md transition-all">
-                {t('landing.enterPlatform')}
+              <Link to="/dashboard" className="inline-flex items-center h-8 sm:h-10 px-3 sm:px-6 border border-white/20 text-xs sm:text-sm font-bold rounded-full text-white bg-white/10 hover:bg-white/20 backdrop-blur-md transition-all whitespace-nowrap">
+                <span className="hidden sm:inline">{t('landing.enterPlatform')}</span>
+                <span className="sm:hidden">Enter</span>
               </Link>
             </div>
           </div>
@@ -133,20 +134,20 @@ const Landing = () => {
             {t('landing.heroSubtitle')}
           </p>
           
-          <div className="mt-12 flex justify-center gap-4">
-            <Link to="/dashboard" className="h-14 px-8 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white/20 text-lg font-bold flex items-center group shadow-2xl transition-all hover:scale-105 border border-white/20">
+          <div className="mt-8 sm:mt-12 flex justify-center gap-4">
+            <Link to="/dashboard" className="h-12 sm:h-14 px-6 sm:px-8 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white/20 text-base sm:text-lg font-bold flex items-center group shadow-2xl transition-all hover:scale-105 border border-white/20">
               {t('landing.enterPlatform')}
-              <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="ml-2 sm:ml-3 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </div>
         
         {/* Mock Logos at bottom (Fixed position inside container) */}
-        <div className="absolute bottom-12 left-0 right-0 z-20 flex justify-center items-center space-x-10 opacity-70 text-white font-bold text-sm uppercase tracking-widest">
-          <span className="flex flex-col items-center"><span className="text-[10px] text-gray-300 mb-2">Trusted By</span> NHAI</span>
-          <span className="mt-5">MoRTH</span>
-          <span className="mt-5">Indian Railways</span>
-          <span className="mt-5">State Revenue Depts</span>
+        <div className="absolute bottom-8 sm:bottom-12 left-0 right-0 z-20 flex flex-wrap justify-center items-center gap-x-4 gap-y-2 sm:space-x-10 px-4 opacity-70 text-white font-bold text-[10px] sm:text-sm uppercase tracking-widest text-center">
+          <span className="flex flex-col items-center"><span className="text-[8px] sm:text-[10px] text-gray-300 mb-1 sm:mb-2">Trusted By</span> NHAI</span>
+          <span className="mt-3 sm:mt-5">MoRTH</span>
+          <span className="mt-3 sm:mt-5 hidden sm:inline">Indian Railways</span>
+          <span className="mt-3 sm:mt-5">State Revenue</span>
         </div>
       </div>
 
