@@ -193,7 +193,8 @@ const Parcels = () => {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Desktop Table Layout */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-100">
             <thead className="bg-gray-50/80">
               <tr>
@@ -248,6 +249,45 @@ const Parcels = () => {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Card Layout */}
+        <div className="md:hidden flex flex-col divide-y divide-gray-100">
+          {filteredData.slice(0, 30).map((parcel) => (
+             <div key={parcel.id} className="p-4 space-y-3 bg-white hover:bg-gray-50 transition-colors">
+               <div className="flex justify-between items-center">
+                 <span className="text-sm font-bold text-gray-900">{parcel.id}</span>
+                 <span className={`px-2 py-1 inline-flex text-[10px] leading-3 font-bold rounded-full border ${getStatusBadge(parcel.status)}`}>
+                   {parcel.status}
+                 </span>
+               </div>
+               
+               <div className="grid grid-cols-2 gap-3 text-sm">
+                 <div>
+                   <p className="text-[10px] uppercase font-bold text-gray-400">Location</p>
+                   <p className="font-semibold text-gray-900">{parcel.village}</p>
+                 </div>
+                 <div>
+                   <p className="text-[10px] uppercase font-bold text-gray-400">Area</p>
+                   <p className="font-bold text-gray-900">{parcel.area} Ha</p>
+                 </div>
+                 <div>
+                   <p className="text-[10px] uppercase font-bold text-gray-400">Owner</p>
+                   <p className="font-semibold text-gray-900">{parcel.owner}</p>
+                 </div>
+                 <div>
+                   <p className="text-[10px] uppercase font-bold text-gray-400">Valuation</p>
+                   <p className="font-bold text-emerald-600">{parcel.valuation}</p>
+                 </div>
+               </div>
+               
+               <div className="pt-3 mt-1 border-t border-gray-100">
+                 <button className="text-emerald-600 hover:text-emerald-800 text-xs font-bold uppercase tracking-wider flex items-center justify-center w-full">
+                    View Full Details <Eye className="w-4 h-4 ml-2" />
+                 </button>
+               </div>
+             </div>
+          ))}
         </div>
         {filteredData.length === 0 && (
           <div className="p-12 text-center text-gray-500">

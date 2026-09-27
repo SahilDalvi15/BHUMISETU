@@ -82,18 +82,18 @@ const Proposals = () => {
           ) : (
             proposals.map((prop) => (
               <li key={prop.id} className="hover:bg-gray-50">
-                <div className="px-4 py-4 sm:px-6 flex items-center justify-between">
-                  <div className="flex flex-col">
-                    <p className="text-sm font-medium text-gov-green truncate">{prop.id} - {prop.title}</p>
-                    <p className="flex items-center text-sm text-gray-500 mt-1">
-                      Project: {prop.projectId} • Required: {prop.landRequiredHectares} Ha
+                <div className="px-4 py-4 sm:px-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div className="flex flex-col flex-1">
+                    <p className="text-sm font-bold text-gov-green break-words whitespace-normal leading-relaxed">{prop.id} - {prop.title}</p>
+                    <p className="flex items-center text-xs sm:text-sm text-gray-500 mt-1.5">
+                      Project: {prop.projectId} &bull; Required: {prop.landRequiredHectares} Ha
                     </p>
                   </div>
-                  <div className="flex flex-col items-end">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusStyle(prop.status)}`}>
+                  <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-center border-t sm:border-t-0 border-gray-100 pt-3 sm:pt-0">
+                    <span className={`px-2.5 py-1 inline-flex text-xs leading-5 font-bold rounded-full ${getStatusStyle(prop.status)}`}>
                       {prop.status}
                     </span>
-                    <Link to="/tasks" className="mt-2 text-sm text-gray-500 flex items-center hover:text-gov-green cursor-pointer transition-colors">
+                    <Link to="/tasks" className="mt-0 sm:mt-2 text-sm text-gray-500 font-semibold flex items-center hover:text-gov-green cursor-pointer transition-colors">
                       <Activity className="w-4 h-4 mr-1" /> View Tracking <ChevronRight className="w-4 h-4 ml-1" />
                     </Link>
                   </div>
