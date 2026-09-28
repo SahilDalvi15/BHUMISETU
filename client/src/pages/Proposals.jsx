@@ -141,80 +141,78 @@ const Proposals = () => {
 
       {/* New Proposal Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
-            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
-              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b border-gray-100">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg leading-6 font-bold text-gray-900" id="modal-title">
-                    Create New Land Proposal
-                  </h3>
-                  <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-500">
-                    <X className="w-5 h-5" />
+        <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-gray-600 bg-opacity-75 transition-opacity backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
+          
+          {/* Modal Panel */}
+          <div className="relative bg-white rounded-xl text-left overflow-hidden shadow-2xl transform transition-all sm:max-w-lg w-full m-4">
+            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b border-gray-100">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg leading-6 font-bold text-gray-900" id="modal-title">
+                  Create New Land Proposal
+                </h3>
+                <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-500 transition-colors">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              
+              <form onSubmit={handleFormSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Proposal Title</label>
+                  <input 
+                    type="text" 
+                    required
+                    placeholder="e.g. Land Acquisition for Phase 3 Bypass"
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                    className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gov-green focus:border-gov-green text-sm" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Target Project ID</label>
+                  <select 
+                    value={newProject}
+                    onChange={(e) => setNewProject(e.target.value)}
+                    className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gov-green focus:border-gov-green text-sm"
+                  >
+                    <option value="BHU-107">BHU-107 (Facility Project 7)</option>
+                    <option value="BHU-115">BHU-115 (Corridor Project 15)</option>
+                    <option value="BHU-201">BHU-201 (Expressway Alpha)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Land Required (Hectares)</label>
+                  <input 
+                    type="number" 
+                    step="0.01"
+                    required
+                    placeholder="e.g. 125.5"
+                    value={newLandRequired}
+                    onChange={(e) => setNewLandRequired(e.target.value)}
+                    className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gov-green focus:border-gov-green text-sm" 
+                  />
+                </div>
+                <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 text-xs text-yellow-800">
+                  <strong>Note:</strong> Uploading KML/Shapefiles and supporting documents is simulated for this prototype. 
+                </div>
+                <div className="pt-4 flex justify-end space-x-3">
+                  <button
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gov-green hover:bg-green-800 focus:outline-none transition-colors"
+                  >
+                    Submit Draft
                   </button>
                 </div>
-                
-                <form onSubmit={handleFormSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Proposal Title</label>
-                    <input 
-                      type="text" 
-                      required
-                      placeholder="e.g. Land Acquisition for Phase 3 Bypass"
-                      value={newTitle}
-                      onChange={(e) => setNewTitle(e.target.value)}
-                      className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gov-green focus:border-gov-green text-sm" 
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Target Project ID</label>
-                    <select 
-                      value={newProject}
-                      onChange={(e) => setNewProject(e.target.value)}
-                      className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gov-green focus:border-gov-green text-sm"
-                    >
-                      <option value="BHU-107">BHU-107 (Facility Project 7)</option>
-                      <option value="BHU-115">BHU-115 (Corridor Project 15)</option>
-                      <option value="BHU-201">BHU-201 (Expressway Alpha)</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Land Required (Hectares)</label>
-                    <input 
-                      type="number" 
-                      step="0.01"
-                      required
-                      placeholder="e.g. 125.5"
-                      value={newLandRequired}
-                      onChange={(e) => setNewLandRequired(e.target.value)}
-                      className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gov-green focus:border-gov-green text-sm" 
-                    />
-                  </div>
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 text-xs text-yellow-800">
-                    <strong>Note:</strong> Uploading KML/Shapefiles and supporting documents is simulated for this prototype. 
-                  </div>
-                  <div className="pt-4 flex justify-end space-x-3">
-                    <button
-                      type="button"
-                      onClick={() => setIsModalOpen(false)}
-                      className="px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      className="px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gov-green hover:bg-green-800 focus:outline-none"
-                    >
-                      Submit Draft
-                    </button>
-                  </div>
-                </form>
+              </form>
 
-              </div>
             </div>
           </div>
         </div>
