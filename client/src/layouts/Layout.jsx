@@ -174,35 +174,48 @@ const Layout = () => {
             <Menu className="h-6 w-6" />
           </button>
           
-          <div className="flex-1 px-4 flex justify-end items-center space-x-4">
-            {/* Removed Prototype Data banner */}
-            <button className="text-gray-400 hover:text-gray-500 relative">
-              <Bell className="h-6 w-6" />
-              <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
+          <div className="flex-1 px-4 flex justify-end items-center space-x-2 sm:space-x-4">
+            <button className="text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 p-2 rounded-full transition-colors relative">
+              <Bell className="h-5 w-5" />
+              <span className="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white shadow-sm"></span>
             </button>
             
-            <div className="hidden sm:flex items-center border-l pl-4 border-gray-200">
-              <select
-                className="text-sm font-semibold bg-gray-50 border border-gray-200 text-gray-700 rounded focus:ring-emerald-500 focus:border-emerald-500 py-1 pl-2 pr-8 mr-4 cursor-pointer"
-                value={i18n.language}
-                onChange={(e) => i18n.changeLanguage(e.target.value)}
-              >
-                <option value="en">English (EN)</option>
-                <option value="hi">हिंदी (HI)</option>
-                <option value="mr">मराठी (MR)</option>
-              </select>
-
-              <div className="flex flex-col mr-3 items-end">
-                <span className="text-xs text-gray-500 font-medium">{t('layout.demoUserSwitcher')}</span>
-                <select 
-                  className="text-sm border border-gray-300 rounded focus:ring-emerald-500 focus:border-emerald-500 py-1 pl-2 pr-8 max-w-[150px] md:max-w-xs truncate"
-                  value={user?.id || ''}
-                  onChange={(e) => setActiveUser(e.target.value)}
+            <div className="hidden sm:flex items-center border-l pl-4 sm:pl-6 border-gray-200 space-x-3 sm:space-x-4">
+              {/* Language Switcher */}
+              <div className="relative group">
+                <select
+                  className="appearance-none bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 font-semibold text-xs sm:text-sm rounded-full focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 py-1.5 pl-4 pr-8 cursor-pointer transition-all shadow-sm"
+                  value={i18n.language}
+                  onChange={(e) => i18n.changeLanguage(e.target.value)}
                 >
-                  {allUsers.map(u => (
-                    <option key={u.id} value={u.id}>{u.role} ({u.name})</option>
-                  ))}
+                  <option value="en">EN</option>
+                  <option value="hi">HI</option>
+                  <option value="mr">MR</option>
                 </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-gray-400 group-hover:text-gray-600">
+                  <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+
+              {/* User Switcher */}
+              <div className="relative group flex items-center">
+                <div className="hidden md:flex h-8 w-8 rounded-full bg-emerald-100 text-emerald-700 items-center justify-center font-bold text-xs mr-2 shadow-sm border border-emerald-200">
+                  {user?.name?.charAt(0) || 'U'}
+                </div>
+                <div className="relative">
+                  <select 
+                    className="appearance-none bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 font-medium text-xs sm:text-sm rounded-full focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 py-1.5 pl-3 sm:pl-4 pr-8 max-w-[140px] md:max-w-[220px] truncate cursor-pointer transition-all shadow-sm"
+                    value={user?.id || ''}
+                    onChange={(e) => setActiveUser(e.target.value)}
+                  >
+                    {allUsers.map(u => (
+                      <option key={u.id} value={u.id}>{u.role} ({u.name})</option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-gray-400 group-hover:text-gray-600">
+                    <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
