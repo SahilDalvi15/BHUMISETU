@@ -52,7 +52,10 @@ const Proposals = () => {
         </div>
         <div className="mt-4 sm:mt-0">
           {['Land Requiring Body', 'Project Implementing Agency', 'National Admin'].includes(user?.role) && (
-            <button className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gov-green hover:bg-green-800 focus:outline-none">
+            <button 
+              onClick={() => alert("This feature is a placeholder in the prototype. In production, this opens a multi-step form for Requiring Bodies to upload land coordinates (KML/Shapefiles), project justification, and budget estimates to initiate acquisition.")}
+              className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gov-green hover:bg-green-800 focus:outline-none"
+            >
               <Plus className="w-4 h-4 mr-2" />
               Submit Proposal
             </button>
