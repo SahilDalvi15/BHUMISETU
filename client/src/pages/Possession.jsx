@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { MapPin, ArrowRight, CheckCircle, Search, FileText } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import useAppStore from '../store/useAppStore';
+import { generateSyntheticPDF } from '../utils/pdfGenerator';
 
 const Possession = () => {
   const { t } = useTranslation();
@@ -36,16 +37,14 @@ const Possession = () => {
   };
 
   const handleDownloadDummyDoc = (id) => {
-    const content = `BHUMISETU - OFFICIAL RECORD\n\nDocument: Final Handover & Transfer Deed\nRecord ID: ${id}\nDate: ${new Date().toLocaleDateString()}\n\nThis is a securely generated placeholder document for the prototype demonstration.\nIn production, this will contain the legally binding transfer deed, surveyor signatures, and final compensation settlement receipts.`;
-    const blob = new Blob([content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Transfer_Deed_${id}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    const record = allPossessions.find(p => p.id === id);
+    const metaData = [
+      ['Date Generated', new Date().toLocaleDateString(), 'Authority', user.role],
+      ['Record ID', id, 'Project ID', record?.projectId || 'N/A'],
+      ['Parcel ID', record?.parcelId || 'N/A', 'Area (Ha)', record?.area || 'N/A'],
+      ['Transferred To', record?.transferee || 'N/A', 'Status', record?.status || 'N/A']
+    ];
+    generateSyntheticPDF('FINAL HANDOVER & TRANSFER DEED', 'Transfer Deed', metaData);
   };
 
   return (
