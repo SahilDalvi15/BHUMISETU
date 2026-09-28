@@ -35,6 +35,19 @@ const Possession = () => {
     });
   };
 
+  const handleDownloadDummyDoc = (id) => {
+    const content = `BHUMISETU - OFFICIAL RECORD\n\nDocument: Final Handover & Transfer Deed\nRecord ID: ${id}\nDate: ${new Date().toLocaleDateString()}\n\nThis is a securely generated placeholder document for the prototype demonstration.\nIn production, this will contain the legally binding transfer deed, surveyor signatures, and final compensation settlement receipts.`;
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Transfer_Deed_${id}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="space-y-6">
       <div className="sm:flex sm:items-center sm:justify-between">
@@ -144,7 +157,10 @@ const Possession = () => {
                           Execute Handover
                         </button>
                       ) : (
-                        <button className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700">
+                        <button 
+                          onClick={() => handleDownloadDummyDoc(record.id)}
+                          className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+                        >
                           <FileText className="w-4 h-4 mr-1" />
                           Transfer Docs
                         </button>
