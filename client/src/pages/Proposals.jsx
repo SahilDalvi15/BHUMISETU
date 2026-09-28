@@ -157,24 +157,24 @@ const Proposals = () => {
                 </button>
               </div>
               
-              <form onSubmit={handleFormSubmit} className="space-y-4">
+              <form onSubmit={handleFormSubmit} className="space-y-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Proposal Title</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Proposal Title</label>
                   <input 
                     type="text" 
                     required
                     placeholder="e.g. Land Acquisition for Phase 3 Bypass"
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
-                    className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gov-green focus:border-gov-green text-sm" 
+                    className="w-full border border-gray-200 rounded-lg shadow-sm py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-gov-green focus:border-transparent text-sm transition-all bg-gray-50 hover:bg-white focus:bg-white" 
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Target Project ID</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Target Project ID</label>
                   <select 
                     value={newProject}
                     onChange={(e) => setNewProject(e.target.value)}
-                    className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gov-green focus:border-gov-green text-sm"
+                    className="w-full border border-gray-200 rounded-lg shadow-sm py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-gov-green focus:border-transparent text-sm transition-all bg-gray-50 hover:bg-white focus:bg-white"
                   >
                     <option value="BHU-107">BHU-107 (Facility Project 7)</option>
                     <option value="BHU-115">BHU-115 (Corridor Project 15)</option>
@@ -182,7 +182,7 @@ const Proposals = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Land Required (Hectares)</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Land Required (Hectares)</label>
                   <input 
                     type="number" 
                     step="0.01"
@@ -190,25 +190,44 @@ const Proposals = () => {
                     placeholder="e.g. 125.5"
                     value={newLandRequired}
                     onChange={(e) => setNewLandRequired(e.target.value)}
-                    className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gov-green focus:border-gov-green text-sm" 
+                    className="w-full border border-gray-200 rounded-lg shadow-sm py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-gov-green focus:border-transparent text-sm transition-all bg-gray-50 hover:bg-white focus:bg-white" 
                   />
                 </div>
-                <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 text-xs text-yellow-800">
-                  <strong>Note:</strong> Uploading KML/Shapefiles and supporting documents is simulated for this prototype. 
+                
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Upload Boundaries (KML/Shapefile)</label>
+                  <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:bg-gray-50 transition-colors cursor-pointer group">
+                    <div className="space-y-1 text-center">
+                      <svg className="mx-auto h-10 w-10 text-gray-400 group-hover:text-gov-green transition-colors" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <div className="flex text-sm text-gray-600 justify-center">
+                        <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-gov-green hover:text-green-800 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-gov-green">
+                          <span>Upload a file</span>
+                          <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+                        </label>
+                        <p className="pl-1">or drag and drop</p>
+                      </div>
+                      <p className="text-xs text-gray-500">
+                        KML, KMZ, SHP up to 10MB
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="pt-4 flex justify-end space-x-3">
+
+                <div className="pt-5 flex justify-end space-x-3 border-t border-gray-100 mt-6">
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className="px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none transition-colors"
+                    className="px-4 py-2 border border-gray-300 shadow-sm text-sm font-semibold rounded-lg text-gray-700 bg-white hover:bg-gray-50 hover:text-gray-900 focus:outline-none transition-all"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gov-green hover:bg-green-800 focus:outline-none transition-colors"
+                    className="px-5 py-2 border border-transparent shadow-sm text-sm font-semibold rounded-lg text-white bg-gov-green hover:bg-green-800 hover:-translate-y-0.5 focus:outline-none transition-all"
                   >
-                    Submit Draft
+                    Submit Proposal
                   </button>
                 </div>
               </form>
