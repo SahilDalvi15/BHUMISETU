@@ -36,7 +36,7 @@ const Layout = () => {
   const setActiveUser = useAppStore(state => state.setActiveUser);
 
   // Enable live notifications
-  useLiveNotifications(true);
+  useLiveNotifications(false);
 
   const navItems = [
     { name: t('layout.dashboard'), path: '/dashboard', icon: LayoutDashboard },
